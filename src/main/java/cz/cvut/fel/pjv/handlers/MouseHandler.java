@@ -1,11 +1,9 @@
 package cz.cvut.fel.pjv.handlers;
 
+import cz.cvut.fel.pjv.levels.LevelConstructor;
+
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
-public class MouseHandler extends MouseEvent {
-
-    public MouseHandler(Component source, int id, long when, int modifiers, int x, int y, int xAbs, int yAbs, int clickCount, boolean popupTrigger, int button) {
-        super(source, id, when, modifiers, x, y, xAbs, yAbs, clickCount, popupTrigger, button);
-    }
+public class MouseHandler extends MouseAdapter {
 }
