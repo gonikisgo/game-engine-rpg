@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu implements ActionListener {
+    public JPanel panelLeft, panelRight, panelUp;
     JFrame menuWindow = new JFrame();
     JButton startButton = new JButton("New Game");
     JButton loadButton = new JButton("Load Game");
@@ -18,13 +19,6 @@ public class Menu implements ActionListener {
         menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuWindow.setResizable(false);
         menuWindow.setTitle("Menu");
-
-        /*
-        menuWindow.setSize(640, 480);
-        menuWindow.setLayout(null);
-         */
-
-
 
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(640, 480));
@@ -47,51 +41,82 @@ public class Menu implements ActionListener {
         loadButton.addActionListener(this);
         panel.add(loadButton);
 
-
         menuWindow.add(panel);
-
         menuWindow.pack();
-
         menuWindow.setLocationRelativeTo(null);
         menuWindow.setVisible(true);
+    }
+
+
+    public void loadConstructor() {
+        JFrame constructorWindow = new JFrame();
+        constructorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        constructorWindow.setResizable(false);
+        constructorWindow.setTitle("RPG constructor");
+
+        LevelConstructor levelConstructor = new LevelConstructor(constructorWindow, this);
+        constructorWindow.add(levelConstructor);
+        constructorWindow.pack();
+        constructorWindow.setLocationRelativeTo(null);
+        constructorWindow.setVisible(true);
+    }
+
+    public void loadGame() {
+
+        JFrame gameWindow = new JFrame();
+        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setResizable(false);
+        gameWindow.setTitle("Game Window");
+
+        JPanel jPanel = new JPanel();
+        jPanel.setPreferredSize(new Dimension(800, 560));
+        jPanel.setBackground(Color.white);
+        jPanel.setDoubleBuffered(true);
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.X_AXIS));
+
+
+        panelLeft = new JPanel();
+        panelLeft.setBackground(Color.WHITE);
+        panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.Y_AXIS));
+        panelLeft.setPreferredSize(new Dimension(640, 560));
+
+
+        panelUp = new JPanel();
+        panelUp.setBackground(Color.WHITE);
+        panelUp.setLayout(null);
+        panelUp.setPreferredSize(new Dimension(640, 80));
+
+        GamePanel gamePanel = new GamePanel();
+
+        panelLeft.add(panelUp);
+        panelLeft.add(gamePanel);
+
+
+        panelRight = new JPanel();
+        panelRight.setBackground(Color.WHITE);
+        panelRight.setLayout(null);
+        panelRight.setPreferredSize(new Dimension(160, 560));
+
+        jPanel.add(panelLeft);
+        jPanel.add(panelRight);
+
+
+        gameWindow.add(jPanel);
+        gameWindow.pack();
+        gameWindow.setLocationRelativeTo(null);
+        gameWindow.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
             menuWindow.dispose();
-
-            JFrame constructorWindow = new JFrame();
-            constructorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            constructorWindow.setResizable(false);
-            constructorWindow.setTitle("RPG constructor");
-
-
-            LevelConstructor levelConstructor = new LevelConstructor(constructorWindow);
-            constructorWindow.add(levelConstructor);
-
-            constructorWindow.pack();
-
-            constructorWindow.setLocationRelativeTo(null);
-            constructorWindow.setVisible(true);
-
+            loadConstructor();
         } else if (e.getSource() == loadButton) {
             menuWindow.dispose();
-            // menuWindow.setVisible(false);
-
-            JFrame gameWindow = new JFrame();
-            gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            gameWindow.setResizable(false);
-            gameWindow.setTitle("Game Window");
-
-            GamePanel gamePanel = new GamePanel();
-            gameWindow.add(gamePanel);
-            gameWindow.pack();
-
-            gameWindow.setLocationRelativeTo(null);
-            gameWindow.setVisible(true);
-
-            gamePanel.startGameThread();
+            loadGame();
         }
     }
 }

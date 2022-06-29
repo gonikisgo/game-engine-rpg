@@ -5,21 +5,17 @@ import cz.cvut.fel.pjv.handlers.MouseHandler;
 import cz.cvut.fel.pjv.handlers.ObjectHandler;
 import cz.cvut.fel.pjv.handlers.StateHandler;
 import cz.cvut.fel.pjv.levels.BasicLevel;
-import cz.cvut.fel.pjv.levels.LevelConstructor;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.objects.ObjectSet;
 import cz.cvut.fel.pjv.objects.mobs.Player;
-import cz.cvut.fel.pjv.objects.stat1c.Key;
 import cz.cvut.fel.pjv.utils.ReadJson;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    JPanel panelLeft, panelRight, panelUp, panelDown;
     public KeyHandler keyHandler = new KeyHandler();
     public ObjectHandler objectHandler;
     public MouseHandler mouseHandler;
@@ -32,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     public ArrayList<BasicObject> allObjects = new ArrayList<BasicObject>();
     public ObjectSet objectSet = new ObjectSet(this);
 
-    GameUI gameUI = new GameUI(this);
+    public GameUI gameUI = new GameUI(this);
     final static int fps = 30;
 
     public final static int tileSize = 32; // every tile is 32*32 pixels
@@ -52,27 +48,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.setLayout(null);
-        // this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
-        /*
-        panelLeft = new JPanel();
-        panelLeft.setPreferredSize(new Dimension(640, 480));
-        panelLeft.setDoubleBuffered(true);
-        panelLeft.addKeyListener(keyHandler);
-        panelLeft.setFocusable(true);
-        panelLeft.setLayout(null);
-
-
-        panelRight = new JPanel();
-        panelRight.setBackground(Color.WHITE);
-        panelRight.setLayout(null);
-        panelRight.setPreferredSize(new Dimension(160, 480));
-
-        this.add(panelLeft);
-        this.add(panelRight);
-
-         */
-
         makeSetup();
     }
 
@@ -82,11 +57,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
 
-
     public void startGameThread() {
         newThread = new Thread(this);
         newThread.start();
     }
+
+   
 
     @Override
     public void run() {
@@ -122,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
             allObjects.get(i).draw(graphics2D, this);
         }
         player.draw(graphics2D);
-        //gameUI.draw(graphics2D);
+        gameUI.draw(graphics2D);
 
         graphics2D.dispose();
     }

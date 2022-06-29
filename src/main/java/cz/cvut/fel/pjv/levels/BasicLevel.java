@@ -1,11 +1,6 @@
 package cz.cvut.fel.pjv.levels;
 
-import cz.cvut.fel.pjv.main.Game;
 import cz.cvut.fel.pjv.objects.BasicObject;
-import cz.cvut.fel.pjv.objects.stat1c.Coin;
-import cz.cvut.fel.pjv.objects.stat1c.Door;
-import cz.cvut.fel.pjv.objects.stat1c.Tree;
-import cz.cvut.fel.pjv.objects.stat1c.Water;
 import cz.cvut.fel.pjv.objects.mobs.Player;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -23,11 +18,6 @@ public class BasicLevel {
     public BasicObject[][] tiles;
     public boolean isBossLevel;
     public String biom;
-    public Tree[] trees;
-    public Water[] water;
-    public Door[] doors;
-    public Coin[] coins;
-
     public int worldX;
     public int worldY;
 
@@ -36,20 +26,18 @@ public class BasicLevel {
 
     public BasicLevel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        isBossLevel = gamePanel.readJsonInfo.dictionary.get("LevelType").get(0).getOptions().equals("Boss");
+        biom = gamePanel.readJsonInfo.dictionary.get("Biom").get(0).getOptions();
         tiles = new BasicObject[gamePanel.tilesHeight * 3][gamePanel.tilesWidth * 3];
-        GetMap();
-    }
-
-
-    public void GetMap() {
         setBiomImages();
         loadTxtMap();
     }
 
+
     public void setBiomImages() {
         try {
             background = new BufferedImage[2];
-            switch (gamePanel.readJsonInfo.dictionary.get("Biom").get(0).getOptions()) {
+            switch (biom) {
                 case "Forest":
                     background[0] = ImageIO.read(getClass().getResourceAsStream("/bioms/grass.png"));
                     background[1] = ImageIO.read(getClass().getResourceAsStream("/bioms/water.png"));

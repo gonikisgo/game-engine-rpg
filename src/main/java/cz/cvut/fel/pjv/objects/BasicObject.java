@@ -24,7 +24,6 @@ public class BasicObject {
     public void draw(Graphics2D graphics2D, GamePanel gamePanel) {
         int screenX = objectWorldX - gamePanel.player.objectWorldX + Player.screenX;
         int screenY = objectWorldY - gamePanel.player.objectWorldY + Player.screenY;
-        // System.out.printf("x - %d, y - %d\n", screenX, screenY);
 
         if (objectWorldX + tileSize > gamePanel.player.objectWorldX - Player.screenX &&
                 objectWorldX - tileSize < gamePanel.player.objectWorldX + Player.screenX &&

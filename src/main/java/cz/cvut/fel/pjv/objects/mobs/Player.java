@@ -1,9 +1,7 @@
 package cz.cvut.fel.pjv.objects.mobs;
 
 import cz.cvut.fel.pjv.handlers.KeyHandler;
-import cz.cvut.fel.pjv.objects.stat1c.Coin;
-import cz.cvut.fel.pjv.objects.stat1c.Key;
-import cz.cvut.fel.pjv.objects.stat1c.Potion;
+import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.BasicWeapon;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -14,11 +12,11 @@ import java.io.IOException;
 
 public class Player extends BasicMob {
     public int level;
-    // public ArrayList<> keys;
     public int keys;
+    public int coins;
+    public int potion;
+    public int XP;
     public BasicWeapon[] weapons;
-    public Coin[] coins;
-    public Potion[] potion;
     public static int screenX;
     public static int screenY;
 
@@ -47,8 +45,8 @@ public class Player extends BasicMob {
         canMove = true;
         moveDirection = "standing";
 
-        objectWorldX = (10 + gamePanel.readJsonInfo.dictionary.get("Player").get(0).getX()) * gamePanel.tileSize;
-        objectWorldY = (8 + gamePanel.readJsonInfo.dictionary.get("Player").get(0).getY()) * gamePanel.tileSize;
+        objectWorldX = gamePanel.readJsonInfo.dictionary.get("Player").get(0).getX() * gamePanel.tileSize + screenX;
+        objectWorldY = gamePanel.readJsonInfo.dictionary.get("Player").get(0).getY() * gamePanel.tileSize + screenY;
         speed = 5;
     }
 
@@ -83,11 +81,13 @@ public class Player extends BasicMob {
         }
 
         collision = false;
-        // gamePanel.stateHandler.checker(this, this);
-        // System.out.println(collision);
-
-        collisionIndex = gamePanel.stateHandler.checkObject(this, this, true);
-        objectInteraction();
+        gamePanel.stateHandler.checkerWorld(this, this);
+        if (collision == false) {
+            collisionIndex = gamePanel.stateHandler.checkerObjects(this, this, true);
+            if (collisionIndex != -1) {
+                objectInteraction();
+            }
+        }
 
 
         if (collision == false) {
@@ -109,26 +109,26 @@ public class Player extends BasicMob {
     }
 
     public void objectInteraction() {
-        if (collisionIndex != -1) {
-            switch (gamePanel.allObjects.get(collisionIndex).name) {
-                case "Key":
-                    keys++;
+        switch (gamePanel.allObjects.get(collisionIndex).name) {
+            case "Key":
+                keys++;
+                gamePanel.gameUI.setMessage("+ key");
+                gamePanel.allObjects.remove(collisionIndex);
+                break;
+            case "Door":
+                if (keys > 0) {
                     gamePanel.allObjects.remove(collisionIndex);
-                    break;
-                case "Door":
-                    if (keys > 0) {
-                        gamePanel.allObjects.remove(collisionIndex);
-                        keys--;
-                    }
-                    break;
-                case "Potion":
-                    speed += 5;
-                    gamePanel.allObjects.remove(collisionIndex);
-                    break;
-                default:
-                    gamePanel.allObjects.remove(collisionIndex);
-                    break;
-            }
+                    keys--;
+                }
+                break;
+            case "Potion":
+                speed += 5;
+                gamePanel.allObjects.remove(collisionIndex);
+                break;
+            case "Coin":
+                coins++;
+                gamePanel.allObjects.remove(collisionIndex);
+                break;
         }
     }
 

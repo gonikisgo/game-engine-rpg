@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.handlers;
 
-import com.sun.source.tree.BreakTree;
-import cz.cvut.fel.pjv.levels.BasicLevel;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
@@ -12,47 +10,32 @@ public class StateHandler {
         this.gamePanel = gamePanel;
     }
 
-    public void checker(BasicObject basicObject, BasicMob basicMob) {
-
-        int objectWorldLeftX = basicObject.objectWorldX + 6;
-        int objectWorldRightX = basicObject.objectWorldX + 6 + 20;
-        int objectWorldUpY = basicObject.objectWorldY + 3;
-        int objectWorldDownY = basicObject.objectWorldY + 3 + 25;
-
-        int objectColLeft = objectWorldLeftX / gamePanel.tileSize;
-        int objectColRight = objectWorldRightX / gamePanel.tileSize;
-        int objectRowUp = objectWorldUpY / gamePanel.tileSize;
-        int objectRowDown = objectWorldDownY / gamePanel.tileSize;
-
+    public void checkerWorld(BasicObject basicObject, BasicMob basicMob) {
         switch (basicObject.moveDirection) {
             case "up":
-                objectRowUp = (objectWorldUpY - basicMob.speed) / gamePanel.tileSize;
-                if (gamePanel.basicLevel.tiles[objectColLeft][objectRowUp].collision == true || gamePanel.basicLevel.tiles[objectColRight][objectRowUp].collision == true) {
+                if ((basicObject.objectWorldY - basicMob.speed) < gamePanel.tileSize * 8) {
                     basicObject.collision = true;
                 }
                 break;
             case "left":
-                objectColLeft = (objectWorldLeftX - basicMob.speed) / gamePanel.tileSize;
-                if (gamePanel.basicLevel.tiles[objectColLeft][objectRowDown].collision == true || gamePanel.basicLevel.tiles[objectColLeft][objectRowUp].collision == true) {
+                if ((basicObject.objectWorldX - basicMob.speed) < gamePanel.tileSize * 10) {
                     basicObject.collision = true;
                 }
                 break;
             case "down":
-                objectRowDown = (objectWorldDownY + basicMob.speed) / gamePanel.tileSize;
-                if (gamePanel.basicLevel.tiles[objectColLeft][objectRowDown].collision == true || gamePanel.basicLevel.tiles[objectColRight][objectRowDown].collision == true) {
+                if ((basicObject.objectWorldY + basicMob.speed) > gamePanel.tileSize * 37) {
                     basicObject.collision = true;
                 }
                 break;
             case "right":
-                objectColRight = (objectWorldRightX + basicMob.speed) / gamePanel.tileSize;
-                if (gamePanel.basicLevel.tiles[objectColRight][objectRowDown].collision == true || gamePanel.basicLevel.tiles[objectColRight][objectRowUp].collision == true) {
+                if ((basicObject.objectWorldX + basicMob.speed) > gamePanel.tileSize * 49) {
                     basicObject.collision = true;
                 }
                 break;
         }
     }
 
-    public int checkObject(BasicObject basicObject, BasicMob basicMob, boolean isPlayer) {
+    public int checkerObjects(BasicObject basicObject, BasicMob basicMob, boolean isPlayer) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allObjects.size(); i++) {
             basicObject.solidArea.x = basicObject.objectWorldX + basicObject.solidArea.x;

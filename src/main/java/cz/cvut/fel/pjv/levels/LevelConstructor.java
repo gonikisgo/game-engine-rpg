@@ -30,7 +30,8 @@ public class LevelConstructor extends JPanel implements ActionListener {
     private Cell[][] cells;
     int locateX = 20;
     int locateY = 80;
-    JFrame menuWindow;
+    JFrame constructorWindow;
+    Menu menu;
     JLabel biomLabel, bossLabel, objectLabel;
     JButton buttonTree, buttonWater, buttonKey, buttonPotion, buttonDoor,
             buttonCoin, buttonApply, buttonPlayer, buttonMonster, buttonElf;
@@ -38,8 +39,11 @@ public class LevelConstructor extends JPanel implements ActionListener {
                                                 "Monster", "Elf", "Biom", "LevelType", "Apply"};
 
     JRadioButton snowChoiceButton, forestChoiceButton, yesBossButton, noBossButton;
-    public LevelConstructor(JFrame menuWindow) {
-        this.menuWindow = menuWindow;
+    public LevelConstructor(JFrame constructorWindow, Menu menu) {
+
+        this.constructorWindow = constructorWindow;
+        this.menu = menu;
+
         pressedButtonNum = -1;
         objectsDict = new Hashtable<String, ArrayList<ObjectInfo>>();
 
@@ -80,12 +84,14 @@ public class LevelConstructor extends JPanel implements ActionListener {
         button.addActionListener(this);
         return button;
     }
+
     private JButton setButton(String name, int width, int height, Color color) {
         JButton tmpButton = setButton(locateX, locateY, name, width, height);
         tmpButton.setForeground(color);
         locateY += 45;
         return tmpButton;
     }
+
     private JRadioButton setRadioButton (int x, int y, String name, int width, int height) {
         JRadioButton tmpButton = new JRadioButton(name);
         tmpButton.setBounds(x, y, width, height);
@@ -93,12 +99,13 @@ public class LevelConstructor extends JPanel implements ActionListener {
         tmpButton.addActionListener(this);
         return tmpButton;
     }
+
     private void setRadButtonGroup(JRadioButton button1, JRadioButton button2) {
         ButtonGroup tmpButGroup = new ButtonGroup();
         tmpButGroup.add(button1);
         tmpButGroup.add(button2);
-        // return tmpButGroup;
     }
+
     private JLabel setLabel(String text, int x, int y, int width, int height, Color color, int fontSize, JPanel panel) {
         JLabel tmpLabel = new JLabel(text);
         tmpLabel.setBounds(x, y, width, height);
@@ -129,14 +136,12 @@ public class LevelConstructor extends JPanel implements ActionListener {
 
         snowChoiceButton = setRadioButton(130, 25, "Snow", 70, 20);
         forestChoiceButton = setRadioButton(195, 25, "Forest", 90, 20);
-        // ButtonGroup group1 =
         setRadButtonGroup(snowChoiceButton, forestChoiceButton);
 
         bossLabel = setLabel("Will this be a boss label?", 310, 24, 200, 20, Color.BLACK, 14, panelUp);
 
         yesBossButton = setRadioButton(510, 25, "Yes", 60, 20);
         noBossButton = setRadioButton(570, 25, "No", 50, 20);
-        // ButtonGroup group2 =
         setRadButtonGroup(yesBossButton, noBossButton);
     }
 
@@ -262,27 +267,12 @@ public class LevelConstructor extends JPanel implements ActionListener {
 
                 if (objectsDict.get("Player").size() > 1) {
                     new Alert("You can locate only one player on the map");
-                    //objectsDict.get("Player").get(0).printTuple();
                 } else if (objectsDict.get("Player").size() == 0) {
                     new Alert("To start game - you should locate player on the map");
                 } else {
-                    // new Alert("Loading ...");
                     new WriteJson(objectsDict);
-                    menuWindow.dispose();
-
-                    JFrame gameWindow = new JFrame();
-                    gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    gameWindow.setResizable(false);
-                    gameWindow.setTitle("Game Window");
-
-                    GamePanel gamePanel = new GamePanel();
-                    gameWindow.add(gamePanel);
-                    gameWindow.pack();
-
-                    gameWindow.setLocationRelativeTo(null);
-                    gameWindow.setVisible(true);
-
-                    gamePanel.startGameThread();
+                    constructorWindow.dispose();
+                    menu.loadGame();
                 }
             }
 

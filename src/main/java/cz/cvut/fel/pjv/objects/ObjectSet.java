@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects;
 
-import cz.cvut.fel.pjv.main.Game;
 import cz.cvut.fel.pjv.objects.stat1c.*;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -61,7 +60,7 @@ public class ObjectSet {
 
         for (int i = 0; i < treesCount; i++)
         {
-            gamePanel.allObjects.add(new Tree());
+            gamePanel.allObjects.add(new Tree(gamePanel));
             gamePanel.allObjects.get(offset).objectWorldX = gamePanel.tileSize * (10 + gamePanel.readJsonInfo.dictionary.get("Tree").get(i).getX());
             gamePanel.allObjects.get(offset).objectWorldY = gamePanel.tileSize * (8 + gamePanel.readJsonInfo.dictionary.get("Tree").get(i).getY());
             offset++;
@@ -69,7 +68,7 @@ public class ObjectSet {
 
         for (int i = 0; i < waterCount; i++)
         {
-            gamePanel.allObjects.add(new Water());
+            gamePanel.allObjects.add(new Water(gamePanel));
             gamePanel.allObjects.get(offset).objectWorldX = gamePanel.tileSize * (10 + gamePanel.readJsonInfo.dictionary.get("Water").get(i).getX());
             gamePanel.allObjects.get(offset).objectWorldY = gamePanel.tileSize * (8 + gamePanel.readJsonInfo.dictionary.get("Water").get(i).getY());
             offset++;
