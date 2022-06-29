@@ -18,11 +18,6 @@ public class BasicLevel {
     public BasicObject[][] tiles;
     public boolean isBossLevel;
     public String biom;
-    public int worldX;
-    public int worldY;
-
-    public int screenX;
-    public int screenY;
 
     public BasicLevel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -79,16 +74,18 @@ public class BasicLevel {
         for (int worldRow = 0; worldRow < gamePanel.tilesHeight * 3; worldRow++) {
             for (int worldCol = 0; worldCol < gamePanel.tilesWidth * 3; worldCol++) {
 
-                worldX = worldCol * gamePanel.tileSize;
-                worldY = worldRow * gamePanel.tileSize;
-                screenX = worldX - gamePanel.player.objectWorldX + Player.screenX;
-                screenY = worldY - gamePanel.player.objectWorldY + Player.screenY;
+                int worldX = worldCol * gamePanel.tileSize;
+                int worldY = worldRow * gamePanel.tileSize;
+                int screenX = worldX - (gamePanel.player.objectWorldX - gamePanel.player.screenX);
+                int screenY = worldY - (gamePanel.player.objectWorldY - gamePanel.player.screenY);
 
-                if (worldX + gamePanel.tileSize > gamePanel.player.objectWorldX - Player.screenX &&
-                        worldX - gamePanel.tileSize < gamePanel.player.objectWorldX + Player.screenX &&
-                        worldY + gamePanel.tileSize > gamePanel.player.objectWorldY - Player.screenY &&
-                        worldY - gamePanel.tileSize < gamePanel.player.objectWorldY + Player.screenY) {
-                    graphics2D.drawImage(tiles[worldRow][worldCol].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+
+                if (worldX + gamePanel.tileSize > gamePanel.player.objectWorldX - gamePanel.player.screenX &&
+                        worldX - gamePanel.tileSize < gamePanel.player.objectWorldX + gamePanel.player.screenX &&
+                        worldY + gamePanel.tileSize > gamePanel.player.objectWorldY - (gamePanel.player.screenY - 48) &&
+                        worldY - gamePanel.tileSize < gamePanel.player.objectWorldY + (528 - gamePanel.player.screenY)) {
+
+                        graphics2D.drawImage(tiles[worldRow][worldCol].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
                 }
             }
         }

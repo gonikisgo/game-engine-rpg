@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed, leftPressed, rightPressed, downPressed;
+    public boolean upPressed, leftPressed, rightPressed, downPressed, attackPressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -13,37 +13,43 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int numButtonPressed = e.getKeyCode();
-
-        if (numButtonPressed == KeyEvent.VK_W) {
-            upPressed = true;
-        }
-        if (numButtonPressed == KeyEvent.VK_A) {
-            leftPressed = true;
-        }
-        if (numButtonPressed == KeyEvent.VK_S) {
-            downPressed = true;
-        }
-        if (numButtonPressed == KeyEvent.VK_D) {
-            rightPressed = true;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                upPressed = true;
+                break;
+            case KeyEvent.VK_A:
+                leftPressed = true;
+                break;
+            case KeyEvent.VK_S:
+                downPressed = true;
+                break;
+            case KeyEvent.VK_D:
+                rightPressed = true;
+                break;
+            case KeyEvent.VK_P:
+                attackPressed = true;
+                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int numButtonUnpressed = e.getKeyCode();
-
-        if (numButtonUnpressed == KeyEvent.VK_W) {
-            upPressed = false;
-        }
-        if (numButtonUnpressed == KeyEvent.VK_A) {
-            leftPressed = false;
-        }
-        if (numButtonUnpressed == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-        if (numButtonUnpressed == KeyEvent.VK_D) {
-            rightPressed = false;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                upPressed = false;
+                break;
+            case KeyEvent.VK_A:
+                leftPressed = false;
+                break;
+            case KeyEvent.VK_S:
+                downPressed = false;
+                break;
+            case KeyEvent.VK_D:
+                rightPressed = false;
+                break;
+            case KeyEvent.VK_P:
+                attackPressed = false;
+                break;
         }
     }
 }

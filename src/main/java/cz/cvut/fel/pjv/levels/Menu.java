@@ -1,6 +1,6 @@
 package cz.cvut.fel.pjv.levels;
 
-import cz.cvut.fel.pjv.screen.GamePanel;
+import cz.cvut.fel.pjv.screen.GameUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu implements ActionListener {
-    public JPanel panelLeft, panelRight, panelUp;
+    public GameUI gameUI = new GameUI();
     JFrame menuWindow = new JFrame();
     JButton startButton = new JButton("New Game");
     JButton loadButton = new JButton("Load Game");
@@ -61,54 +61,6 @@ public class Menu implements ActionListener {
         constructorWindow.setVisible(true);
     }
 
-    public void loadGame() {
-
-        JFrame gameWindow = new JFrame();
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameWindow.setResizable(false);
-        gameWindow.setTitle("Game Window");
-
-        JPanel jPanel = new JPanel();
-        jPanel.setPreferredSize(new Dimension(800, 560));
-        jPanel.setBackground(Color.white);
-        jPanel.setDoubleBuffered(true);
-        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.X_AXIS));
-
-
-        panelLeft = new JPanel();
-        panelLeft.setBackground(Color.WHITE);
-        panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.Y_AXIS));
-        panelLeft.setPreferredSize(new Dimension(640, 560));
-
-
-        panelUp = new JPanel();
-        panelUp.setBackground(Color.WHITE);
-        panelUp.setLayout(null);
-        panelUp.setPreferredSize(new Dimension(640, 80));
-
-        GamePanel gamePanel = new GamePanel();
-
-        panelLeft.add(panelUp);
-        panelLeft.add(gamePanel);
-
-
-        panelRight = new JPanel();
-        panelRight.setBackground(Color.WHITE);
-        panelRight.setLayout(null);
-        panelRight.setPreferredSize(new Dimension(160, 560));
-
-        jPanel.add(panelLeft);
-        jPanel.add(panelRight);
-
-
-        gameWindow.add(jPanel);
-        gameWindow.pack();
-        gameWindow.setLocationRelativeTo(null);
-        gameWindow.setVisible(true);
-
-        gamePanel.startGameThread();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
@@ -116,7 +68,7 @@ public class Menu implements ActionListener {
             loadConstructor();
         } else if (e.getSource() == loadButton) {
             menuWindow.dispose();
-            loadGame();
+            gameUI.loadGame();
         }
     }
 }

@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.levels;
 
-import cz.cvut.fel.pjv.screen.GamePanel;
 import cz.cvut.fel.pjv.utils.WriteJson;
 
 import javax.swing.*;
@@ -270,9 +269,9 @@ public class LevelConstructor extends JPanel implements ActionListener {
                 } else if (objectsDict.get("Player").size() == 0) {
                     new Alert("To start game - you should locate player on the map");
                 } else {
-                    new WriteJson(objectsDict);
+                    new WriteJson(objectsDict, "Output.json");
                     constructorWindow.dispose();
-                    menu.loadGame();
+                    menu.gameUI.loadGame();
                 }
             }
 

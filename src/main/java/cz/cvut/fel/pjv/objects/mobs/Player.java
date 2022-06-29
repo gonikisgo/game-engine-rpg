@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.objects.mobs;
 
 import cz.cvut.fel.pjv.handlers.KeyHandler;
-import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.BasicWeapon;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -12,13 +11,13 @@ import java.io.IOException;
 
 public class Player extends BasicMob {
     public int level;
-    public int keys;
+    public int keys = 0;
     public int coins;
     public int potion;
     public int XP;
     public BasicWeapon[] weapons;
-    public static int screenX;
-    public static int screenY;
+    public int screenX;
+    public int screenY;
 
     int collisionIndex;
 
@@ -28,8 +27,9 @@ public class Player extends BasicMob {
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
+        health = 100;
         screenX = gamePanel.tileSize * 10;
-        screenY = gamePanel.tileSize * 8;
+        screenY = gamePanel.tileSize * 8 + 48;
 
         this.keyHandler = keyHandler;
         solidAreaX = 8;
@@ -45,8 +45,8 @@ public class Player extends BasicMob {
         canMove = true;
         moveDirection = "standing";
 
-        objectWorldX = gamePanel.readJsonInfo.dictionary.get("Player").get(0).getX() * gamePanel.tileSize + screenX;
-        objectWorldY = gamePanel.readJsonInfo.dictionary.get("Player").get(0).getY() * gamePanel.tileSize + screenY;
+        objectWorldX = (gamePanel.readJsonInfo.dictionary.get("Player").get(0).getX() + 10) * gamePanel.tileSize;
+        objectWorldY = (gamePanel.readJsonInfo.dictionary.get("Player").get(0).getY() + 8) * gamePanel.tileSize;
         speed = 5;
     }
 
@@ -81,16 +81,23 @@ public class Player extends BasicMob {
         }
 
         collision = false;
-        gamePanel.stateHandler.checkerWorld(this, this);
+        gamePanel.stateHandler.checkerWorld( this, 8, 10, 37, 49);
+
         if (collision == false) {
-            collisionIndex = gamePanel.stateHandler.checkerObjects(this, this, true);
+            collisionIndex = gamePanel.stateHandler.checkerObjects(this);
             if (collisionIndex != -1) {
                 objectInteraction();
             }
         }
-
-
         if (collision == false) {
+            collisionIndex = gamePanel.stateHandler.checkerMobs(this, -1);
+            if (collisionIndex != -1) {
+                mobInteraction();
+            }
+        }
+
+
+        if (!collision) {
             switch (moveDirection) {
                 case "up":
                     objectWorldY -= speed;
@@ -106,13 +113,14 @@ public class Player extends BasicMob {
                     break;
             }
         }
+        updateImage();
     }
 
-    public void objectInteraction() {
+    private void objectInteraction() {
         switch (gamePanel.allObjects.get(collisionIndex).name) {
             case "Key":
                 keys++;
-                gamePanel.gameUI.setMessage("+ key");
+                //gamePanel.gameUI.setMessage("+ key");
                 gamePanel.allObjects.remove(collisionIndex);
                 break;
             case "Door":
@@ -122,7 +130,7 @@ public class Player extends BasicMob {
                 }
                 break;
             case "Potion":
-                speed += 5;
+                speed += 1;
                 gamePanel.allObjects.remove(collisionIndex);
                 break;
             case "Coin":
@@ -132,23 +140,32 @@ public class Player extends BasicMob {
         }
     }
 
-    public void draw(Graphics2D graphics2D) {
-        BufferedImage actualImage = standing;
+    private void mobInteraction() {
+        switch (gamePanel.allMobs.get(collisionIndex).name) {
+            case "Monster":
+                health -= 5;
+                //gamePanel.gameUI.setMessage(" -5XP");
+                break;
+        }
+    }
+
+    private void updateImage() {
+        image = standing;
 
         if (keyHandler.upPressed || keyHandler.leftPressed || keyHandler.downPressed || keyHandler.rightPressed) {
 
             switch (moveDirection) {
                 case "up":
-                    actualImage = spriteChange == false ? up1 : up2;
+                    image = spriteChange == false ? up1 : up2;
                     break;
                 case "left":
-                    actualImage = spriteChange == false ? left1 : left2;
+                    image = spriteChange == false ? left1 : left2;
                     break;
                 case "down":
-                    actualImage = spriteChange == false ? down1 : down2;
+                    image = spriteChange == false ? down1 : down2;
                     break;
                 case "right":
-                    actualImage = spriteChange == false ? right1 : right2;
+                    image = spriteChange == false ? right1 : right2;
                     break;
             }
 
@@ -159,7 +176,9 @@ public class Player extends BasicMob {
             }
 
         }
+    }
 
-        graphics2D.drawImage(actualImage, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+    public void draw(Graphics2D graphics2D) {
+        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }

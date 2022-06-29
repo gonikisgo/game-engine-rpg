@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class WriteJson {
-    public WriteJson(Hashtable<String, ArrayList<ObjectInfo>> dictionary) {
+    public WriteJson(Hashtable<String, ArrayList<ObjectInfo>> dictionary, String fname) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        //System.out.println(gson.toJson(dictionary));
+        // System.out.println(gson.toJson(dictionary));
         try {
-            Writer writer = new FileWriter("Output.json");
+            Writer writer = new FileWriter(fname);
             gson.toJson(dictionary, writer);
             writer.close();
         } catch (Exception ex) {

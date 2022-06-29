@@ -1,16 +1,13 @@
 package cz.cvut.fel.pjv.objects;
 
+import cz.cvut.fel.pjv.objects.mobs.enemies.Monster;
+import cz.cvut.fel.pjv.objects.mobs.friends.Elf;
 import cz.cvut.fel.pjv.objects.stat1c.*;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 public class ObjectSet {
     GamePanel gamePanel;
-    int coinsCount;
-    int doorsCount;
-    int keysCount;
-    int potionCount;
-    int treesCount;
-    int waterCount;
+    int coinsCount, doorsCount, keysCount, potionCount, treesCount, waterCount, monstersCount, elvesCount;
 
     public ObjectSet(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -20,6 +17,8 @@ public class ObjectSet {
         potionCount = gamePanel.readJsonInfo.dictionary.get("Potion").size();
         treesCount = gamePanel.readJsonInfo.dictionary.get("Tree").size();
         waterCount = gamePanel.readJsonInfo.dictionary.get("Water").size();
+        monstersCount = gamePanel.readJsonInfo.dictionary.get("Monster").size();
+        elvesCount = gamePanel.readJsonInfo.dictionary.get("Elf").size();
     }
 
     public void objectSetter() {
@@ -71,6 +70,25 @@ public class ObjectSet {
             gamePanel.allObjects.add(new Water(gamePanel));
             gamePanel.allObjects.get(offset).objectWorldX = gamePanel.tileSize * (10 + gamePanel.readJsonInfo.dictionary.get("Water").get(i).getX());
             gamePanel.allObjects.get(offset).objectWorldY = gamePanel.tileSize * (8 + gamePanel.readJsonInfo.dictionary.get("Water").get(i).getY());
+            offset++;
+        }
+
+        offset = 0;
+        for (int i = 0; i < monstersCount; i++)
+        {
+            gamePanel.allMobs.add(new Monster(gamePanel));
+            gamePanel.allMobs.get(offset).setDefault((10 + gamePanel.readJsonInfo.dictionary.get("Monster").get(i).getX()),
+                    (8 + gamePanel.readJsonInfo.dictionary.get("Monster").get(i).getY()));
+            gamePanel.allMobs.get(offset).setMoveArea();
+            offset++;
+        }
+
+        for (int i = 0; i < elvesCount; i++)
+        {
+            gamePanel.allMobs.add(new Elf(gamePanel));
+            gamePanel.allMobs.get(offset).setDefault((10 + gamePanel.readJsonInfo.dictionary.get("Elf").get(i).getX()),
+                    (8 + gamePanel.readJsonInfo.dictionary.get("Elf").get(i).getY()));
+            gamePanel.allMobs.get(offset).setMoveArea();
             offset++;
         }
 
