@@ -1,36 +1,56 @@
 package cz.cvut.fel.pjv.objects.mobs.enemies;
 
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
-import cz.cvut.fel.pjv.objects.mobs.Player;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-import static cz.cvut.fel.pjv.screen.GamePanel.tileSize;
-
+/*
+boss monster class
+ */
 public class BossMonster extends BasicMob {
-    public BossMonster() {
+    public BossMonster(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        name = "Boss";
+        health = 150;
+
+        name = "BossMonster";
         collision = true;
         speed = 7;
-        delta = 10;
-        solidAreaWidthX = 64;
-        solidAreaHeightY = 64;
-
+        delta = 20;
+        solidAreaX = 5;
+        solidAreaY = 5;
+        solidAreaWidthX = 22;
+        solidAreaHeightY = 22;
+        solidArea = new Rectangle(solidAreaX, solidAreaY, solidAreaWidthX, solidAreaHeightY);
         try {
-            standing = ImageIO.read(getClass().getResourceAsStream("/mobs/standing.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/up2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/left2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/right2.png"));
+            switch (gamePanel.basicLevel.biom) {
+                case "Forest":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/boss_monster/right2.png"));
+                    break;
+
+                case "Snow":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/right2.png"));
+                    break;
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

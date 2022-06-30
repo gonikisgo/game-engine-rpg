@@ -4,29 +4,37 @@ import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
+
+/*
+tree class
+ */
 
 public class Tree extends BasicObject {
-
-    InputStream inputStream;
-    GamePanel gamePanel;
     public Tree(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+
+        health = 60;
+
         name = "Tree";
         collision = true;
+        solidAreaX = 3;
+        solidAreaY = 2;
+        solidAreaWidthX = 26;
+        solidAreaHeightY = 28;
+        solidArea = new Rectangle(solidAreaX, solidAreaY, solidAreaWidthX, solidAreaHeightY);
 
-        switch (gamePanel.basicLevel.biom) {
-            case "Forest":
-                inputStream = getClass().getResourceAsStream("/objects/tree.png");
-                collision = true;
-                break;
-            case "Snow":
-                inputStream = getClass().getResourceAsStream("/objects/tree_snow.png");
-                break;
-        }
+        canBeDestroyed = gamePanel.rand.nextInt(2) == 0;
         try {
-            this.image = ImageIO.read(inputStream);
+            switch (gamePanel.basicLevel.biom) {
+                case "Forest":
+                    this.image = ImageIO.read(getClass().getResourceAsStream("/objects/forest/tree.png"));
+                    break;
+                case "Snow":
+                    this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/tree.png"));
+                    break;
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

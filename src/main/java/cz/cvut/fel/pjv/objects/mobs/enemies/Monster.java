@@ -4,28 +4,54 @@ import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
+
+/*
+monster class
+ */
 
 public class Monster extends BasicMob {
     public Monster(GamePanel gamePanel) {
-
         this.gamePanel = gamePanel;
+
+        health = 100;
 
         name = "Monster";
         collision = true;
-        speed = 1;
+        speed = 2;
         delta = 2;
-
+        solidAreaX = 5;
+        solidAreaY = 5;
+        solidAreaWidthX = 22;
+        solidAreaHeightY = 22;
+        solidArea = new Rectangle(solidAreaX, solidAreaY, solidAreaWidthX, solidAreaHeightY);
         try {
-            standing = ImageIO.read(getClass().getResourceAsStream("/mobs/standing.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/up2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/left2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/right2.png"));
+            switch (gamePanel.basicLevel.biom) {
+                case "Forest":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/monster/right2.png"));
+                    break;
+
+                case "Snow":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/right2.png"));
+                    break;
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

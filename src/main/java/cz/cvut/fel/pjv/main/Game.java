@@ -1,13 +1,13 @@
 package cz.cvut.fel.pjv.main;
 
-import cz.cvut.fel.pjv.levels.Menu;
+import cz.cvut.fel.pjv.screen.Menu;
 
-import javax.swing.*;
-
+/*
+main class
+ */
 public class Game {
     public static void main(String[] args) {
-        Menu menu = new Menu();
-        menu.setMenu();
+        new Menu().setMenu();
     }
 }
 

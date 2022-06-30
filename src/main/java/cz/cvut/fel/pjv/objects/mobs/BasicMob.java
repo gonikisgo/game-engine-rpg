@@ -5,29 +5,34 @@ import cz.cvut.fel.pjv.screen.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
+/*
+base class for all mobs
+ */
 public class BasicMob extends BasicObject {
+    final static int leftConstructorMapBorder = 10;
+    final static int topConstructorMapBorder = 8;
+    final static int rightConstructorMapBorder = 49;
+    final static int bottomConstructorMapBorder = 37;
     public GamePanel gamePanel;
-
+    public boolean canHeal = false;
+    public boolean attacking = false;
     public int defaultWorldX, defaultWorldY;
-
     public int upBorder, leftBorder, downBorder, rightBorder;
-
-    public int delta = -1;
-    public Rectangle Area;
-    public String moveDirection = "Standing";
+    public int delta;
+    public int activeAreaSize = GamePanel.tileSize / 2;
+    // mob's active area is 16 pixels in every dimension
+    public Rectangle activeArea = new Rectangle(0, 0, activeAreaSize * 2 + GamePanel.tileSize, activeAreaSize * 2 + GamePanel.tileSize);
+    public String moveDirection = "standing";
     public int speed;
     public boolean spriteChange = false;
     public int spriteChangeRate = 0;
-    public int health;
     public boolean canMove;
-    Random rand = new Random();
-    public String[] move = new String[]{"standing", "up", "left", "down", "right"};
-    int moveUpdateRate = 100;
     public BufferedImage standing, up1, up2, left1, left2, down1, down2, right1, right2;
-    public boolean canDamage =  false;
-
+    String[] move = new String[]{"standing", "up", "left", "down", "right"};
+    int frequency = 10; // to avoid unstoppable healing or damaging
+    int moveUpdateDefaultRate = 100;
+    int moveUpdateRate = moveUpdateDefaultRate;
 
     public int getHealth() {
         return health;
@@ -36,62 +41,101 @@ public class BasicMob extends BasicObject {
     public void setDefault(int x, int y) {
         defaultWorldX = x;
         defaultWorldY = y;
-        objectWorldX = gamePanel.tileSize * x;
-        objectWorldY = gamePanel.tileSize * y;
+        objectWorldX = GamePanel.tileSize * x;
+        objectWorldY = GamePanel.tileSize * y;
     }
 
+    // setting moving square for mob
     public void setMoveArea() {
-        upBorder = defaultWorldY - delta < 8 ? 8 : defaultWorldY - delta;
-        leftBorder = defaultWorldX - delta < 10 ? 10 : defaultWorldX - delta;
-        downBorder = defaultWorldY + delta > 37 ? 37 : defaultWorldY + delta;
-        rightBorder = defaultWorldX + delta > 49 ? 49 : defaultWorldX + delta;
+        upBorder = defaultWorldY - delta < topConstructorMapBorder ? topConstructorMapBorder : defaultWorldY - delta;
+        leftBorder = defaultWorldX - delta < leftConstructorMapBorder ? leftConstructorMapBorder : defaultWorldX - delta;
+        downBorder = defaultWorldY + delta > bottomConstructorMapBorder ? bottomConstructorMapBorder : defaultWorldY + delta;
+        rightBorder = defaultWorldX + delta > rightConstructorMapBorder ? rightConstructorMapBorder : defaultWorldX + delta;
     }
 
     public void update(int index) {
-        chooseMove(index);
+        if (underAttack) {
+            moveUpdateDefaultRate *= 0.7;
+            chooseMove(index);
+        } else if (gamePanel.stateHandler.checkerMobsArea(index)) {
+            moveDirection = move[0];
 
-        switch (moveDirection) {
-            case "up":
-                objectWorldY -= speed;
-                break;
-            case "left":
-                objectWorldX -= speed;
-                break;
-            case "down":
-                objectWorldY += speed;
-                break;
-            case "right":
-                objectWorldX += speed;
-                break;
+            if (frequency == 10) {
+                switch (this.name) {
+                    case "Elf":
+                        if (canHeal) {
+                            gamePanel.player.health += 3; // elf heals +3 xp each time
+                        }
+                        break;
+                    case "Monster":
+                        gamePanel.player.health -= 5; // monster damages -5 xp each time
+                        break;
+                    case "BossMonster":
+                        gamePanel.player.health -= 20; // boss monster damages -5 xp each time
+                        break;
+                }
+                frequency = 0;
+            } else {
+                frequency++;
+            }
+        } else {
+            chooseMove(index);
         }
         updateImage();
     }
 
+    private void chooseMove(int index) {
+        int tryNum = 0;
+        checkCollision(index);
+        if (moveUpdateRate >= moveUpdateDefaultRate || collision) {
+            collision = true;
+            while (collision) {
+                collision = false;
+                if (underAttack) {
+                    if (tryNum != 10) {
+                        moveDirection = move[gamePanel.rand.nextInt(1, 5)];
+                        tryNum++;
+                    } else {
+                        moveDirection = move[0];
+                    }
+                } else {
+                    moveDirection = move[gamePanel.rand.nextInt(5)];
+                }
+                checkCollision(index);
+            }
+            moveUpdateRate = 0;
+        } else {
+            moveUpdateRate++;
+        }
+        speedChange(this);
+    }
+
     private void checkCollision(int index) {
-        gamePanel.stateHandler.checkerWorld(this, upBorder, leftBorder, downBorder, rightBorder);
+        gamePanel.stateHandler.worldCollisionCheck(this, upBorder, leftBorder, downBorder, rightBorder);
         gamePanel.stateHandler.checkerObjects(this);
         gamePanel.stateHandler.checkerMobs(this, index);
         gamePanel.stateHandler.checkerPlayer(this);
     }
 
-    private void chooseMove(int index) {
-        checkCollision(index);
-
-        if (moveUpdateRate == 100 || collision) {
-            collision = true;
-            while (collision) {
-                collision = false;
-                moveDirection = move[rand.nextInt(5)];
-                checkCollision(index);
-            }
-            moveUpdateRate = 0;
+    public void speedChange(BasicMob basicMob) {
+        switch (basicMob.moveDirection) {
+            case "up":
+                basicMob.objectWorldY -= basicMob.speed;
+                break;
+            case "left":
+                basicMob.objectWorldX -= basicMob.speed;
+                break;
+            case "down":
+                basicMob.objectWorldY += basicMob.speed;
+                break;
+            case "right":
+                basicMob.objectWorldX += basicMob.speed;
+                break;
         }
-        moveUpdateRate++;
     }
 
-    private void updateImage() {
+    public void updateImage() {
         image = standing;
-
         switch (moveDirection) {
             case "up":
                 image = spriteChange == false ? up1 : up2;
@@ -109,7 +153,7 @@ public class BasicMob extends BasicObject {
 
         spriteChangeRate++;
         if (spriteChangeRate > 5) {
-            spriteChange = spriteChange == false ? true : false;
+            spriteChange = spriteChange == false;
             spriteChangeRate = 0;
         }
     }

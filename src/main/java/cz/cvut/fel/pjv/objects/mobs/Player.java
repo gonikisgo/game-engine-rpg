@@ -6,179 +6,194 @@ import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/*
+player class
+ */
+
 public class Player extends BasicMob {
-    public int level;
     public int keys = 0;
-    public int coins;
-    public int potion;
-    public int XP;
-    public BasicWeapon[] weapons;
+    public int potionDrunk = 0;
+    public int coins = 0;
     public int screenX;
     public int screenY;
-
-    int collisionIndex;
-
-
-    GamePanel gamePanel;
+    public int collisionIndex;
+    public int frequency = 4; // to avoid frequent updates
+    public BasicWeapon[] weapon = new BasicWeapon[2];
+    public BasicWeapon currentWeapon = null;
+    int actualScreenX, actualScreenY;
     KeyHandler keyHandler;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
-        health = 100;
-        screenX = gamePanel.tileSize * 10;
-        screenY = gamePanel.tileSize * 8 + 48;
-
         this.keyHandler = keyHandler;
-        solidAreaX = 8;
-        solidAreaY = 10;
-        solidArea = new Rectangle(solidAreaX, solidAreaY, 16, 18);
-        setPositions();
-        setImages();
 
-        keys = 0;
-    }
+        health = 100;
+        screenX = GamePanel.tileSize * 10; // middle of the x on panel
+        screenY = GamePanel.tileSize * 8 + downOffsetY; // middle of the y on panel
+        solidAreaX = 7;
+        solidAreaY = 5;
+        solidAreaWidthX = 18;
+        solidAreaHeightY = 22;
+        solidArea = new Rectangle(solidAreaX, solidAreaY, solidAreaWidthX, solidAreaHeightY);
 
-    public void setPositions() {
-        canMove = true;
+        // offset player's world borders, because constructor map is smaller than actual game map
+        upBorder = 8;
+        leftBorder = 10;
+        downBorder = 37;
+        rightBorder = 49;
+
         moveDirection = "standing";
-
-        objectWorldX = (gamePanel.readJsonInfo.dictionary.get("Player").get(0).getX() + 10) * gamePanel.tileSize;
-        objectWorldY = (gamePanel.readJsonInfo.dictionary.get("Player").get(0).getY() + 8) * gamePanel.tileSize;
         speed = 5;
+        setImages();
     }
 
-    public void setImages() {
+    private void setImages() {
         try {
-            standing = ImageIO.read(getClass().getResourceAsStream("/48bit/standing.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/48bit/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/48bit/up2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/48bit/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/48bit/left2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/48bit/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/48bit/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/48bit/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/48bit/right2.png"));
-
+            switch (gamePanel.basicLevel.biom) {
+                case "Forest":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/forest/player/right2.png"));
+                    break;
+                case "Snow":
+                    standing = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/standing.png"));
+                    up1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/up1.png"));
+                    up2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/up2.png"));
+                    left1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/left1.png"));
+                    left2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/left2.png"));
+                    down1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/down1.png"));
+                    down2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/down2.png"));
+                    right1 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/right1.png"));
+                    right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/right2.png"));
+                    break;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void update() {
+        attacking = false;
+        actualScreenX = screenX;
+        actualScreenY = screenY;
         moveDirection = "standing";
 
-        if (keyHandler.upPressed == true) {
+        gamePanel.weaponHandler.weaponBuyCheck();
+        if (weapon[0] != null || weapon[1] != null) {
+            gamePanel.weaponHandler.weaponChoice();
+        }
+
+        if (keyHandler.upPressed) {
             moveDirection = "up";
-        } else if (keyHandler.leftPressed == true) {
+        } else if (keyHandler.leftPressed) {
             moveDirection = "left";
-        } else if (keyHandler.downPressed == true) {
+        } else if (keyHandler.downPressed) {
             moveDirection = "down";
-        } else if (keyHandler.rightPressed == true) {
+        } else if (keyHandler.rightPressed) {
             moveDirection = "right";
+        } else if (keyHandler.attackUpPressed) {
+            moveDirection = "upAttack";
+            attacking = true;
+        } else if (keyHandler.attackLeftPressed) {
+            moveDirection = "leftAttack";
+            attacking = true;
+        } else if (keyHandler.attackDownPressed) {
+            moveDirection = "downAttack";
+            attacking = true;
+        } else if (keyHandler.attackRightPressed) {
+            moveDirection = "rightAttack";
+            attacking = true;
         }
 
         collision = false;
-        gamePanel.stateHandler.checkerWorld( this, 8, 10, 37, 49);
-
-        if (collision == false) {
-            collisionIndex = gamePanel.stateHandler.checkerObjects(this);
+        if (attacking && currentWeapon != null) {
+            attackSet();
+            collisionIndex = gamePanel.stateHandler.checkerWeaponObjects(currentWeapon);
             if (collisionIndex != -1) {
-                objectInteraction();
+                gamePanel.objectHandler.weaponObjectInteraction();
             }
-        }
-        if (collision == false) {
-            collisionIndex = gamePanel.stateHandler.checkerMobs(this, -1);
+            collisionIndex = gamePanel.stateHandler.checkerWeaponMobs(currentWeapon);
             if (collisionIndex != -1) {
-                mobInteraction();
+                gamePanel.objectHandler.weaponMobInteraction();
             }
-        }
-
-
-        if (!collision) {
-            switch (moveDirection) {
-                case "up":
-                    objectWorldY -= speed;
-                    break;
-                case "left":
-                    objectWorldX -= speed;
-                    break;
-                case "down":
-                    objectWorldY += speed;
-                    break;
-                case "right":
-                    objectWorldX += speed;
-                    break;
-            }
-        }
-        updateImage();
-    }
-
-    private void objectInteraction() {
-        switch (gamePanel.allObjects.get(collisionIndex).name) {
-            case "Key":
-                keys++;
-                //gamePanel.gameUI.setMessage("+ key");
-                gamePanel.allObjects.remove(collisionIndex);
-                break;
-            case "Door":
-                if (keys > 0) {
-                    gamePanel.allObjects.remove(collisionIndex);
-                    keys--;
+        } else {
+            gamePanel.stateHandler.worldCollisionCheck(this, upBorder, leftBorder, downBorder, rightBorder);
+            if (collision == false) {
+                collisionIndex = gamePanel.stateHandler.checkerObjects(this);
+                if (collisionIndex != -1) {
+                    gamePanel.objectHandler.playerObjectInteraction();
                 }
+            }
+            if (collision == false) {
+                collisionIndex = gamePanel.stateHandler.checkerMobs(this, -1);
+                if (collisionIndex != -1) {
+                    gamePanel.objectHandler.playerMobInteraction();
+                }
+            }
+            if (!collision) {
+                speedChange(this);
+            }
+        }
+        updatePlayerImage();
+    }
+
+    private void attackSet() {
+        // setting sword's actual solid area
+        switch (moveDirection) {
+            case "upAttack":
+                currentWeapon.objectWorldX = this.objectWorldX + currentWeapon.solidAreaY;
+                currentWeapon.objectWorldY = this.objectWorldY + currentWeapon.playerHandOffset - currentWeapon.solidAreaWidthX;
+                actualScreenY -= 18; // player with sword tile is 50*32 pixels
                 break;
-            case "Potion":
-                speed += 1;
-                gamePanel.allObjects.remove(collisionIndex);
+            case "leftAttack":
+                currentWeapon.objectWorldX = this.objectWorldX + currentWeapon.playerHandOffset - currentWeapon.solidAreaWidthX;
+                currentWeapon.objectWorldY = this.objectWorldY + currentWeapon.solidAreaY;
+                actualScreenX -= 18; // player with sword tile is 50*32 pixels
                 break;
-            case "Coin":
-                coins++;
-                gamePanel.allObjects.remove(collisionIndex);
+            case "downAttack":
+                currentWeapon.objectWorldX = this.objectWorldX + (GamePanel.tileSize - currentWeapon.solidAreaHeightY - currentWeapon.solidAreaY);
+                currentWeapon.objectWorldY = this.objectWorldY + (GamePanel.tileSize - currentWeapon.playerHandOffset);
+                break;
+            case "rightAttack":
+                currentWeapon.objectWorldX = this.objectWorldX + (GamePanel.tileSize - currentWeapon.playerHandOffset);
+                currentWeapon.objectWorldY = this.objectWorldY + currentWeapon.solidAreaY;
                 break;
         }
     }
 
-    private void mobInteraction() {
-        switch (gamePanel.allMobs.get(collisionIndex).name) {
-            case "Monster":
-                health -= 5;
-                //gamePanel.gameUI.setMessage(" -5XP");
-                break;
-        }
-    }
-
-    private void updateImage() {
+    private void updatePlayerImage() {
         image = standing;
-
-        if (keyHandler.upPressed || keyHandler.leftPressed || keyHandler.downPressed || keyHandler.rightPressed) {
-
-            switch (moveDirection) {
-                case "up":
-                    image = spriteChange == false ? up1 : up2;
-                    break;
-                case "left":
-                    image = spriteChange == false ? left1 : left2;
-                    break;
-                case "down":
-                    image = spriteChange == false ? down1 : down2;
-                    break;
-                case "right":
-                    image = spriteChange == false ? right1 : right2;
-                    break;
+        if (!moveDirection.equals("standing")) {
+            if (attacking && currentWeapon != null) {
+                switch (moveDirection) {
+                    case "upAttack":
+                        image = currentWeapon.upAttack;
+                        break;
+                    case "leftAttack":
+                        image = currentWeapon.leftAttack;
+                        break;
+                    case "downAttack":
+                        image = currentWeapon.downAttack;
+                        break;
+                    case "rightAttack":
+                        image = currentWeapon.rightAttack;
+                        break;
+                }
+            } else {
+                updateImage();
             }
-
-            spriteChangeRate++;
-            if (spriteChangeRate > 5) {
-                spriteChange = spriteChange == false ? true : false;
-                spriteChangeRate = 0;
-            }
-
         }
     }
 
     public void draw(Graphics2D graphics2D) {
-        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(image, actualScreenX, actualScreenY, null);
     }
 }

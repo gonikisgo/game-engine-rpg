@@ -1,11 +1,16 @@
 package cz.cvut.fel.pjv.handlers;
 
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/*
+class for listening keyboard buttons during the game
+ */
+
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed, leftPressed, rightPressed, downPressed, attackPressed;
+    public boolean upPressed, leftPressed, rightPressed, downPressed, attackUpPressed, attackLeftPressed, attackDownPressed, attackRightPressed, pausePressed, isMenuBigSword, weaponChoice, buyWeapon, saveGameButton, moneyCheat;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -26,8 +31,35 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D:
                 rightPressed = true;
                 break;
+            case KeyEvent.VK_UP:
+                attackUpPressed = true;
+                break;
+            case KeyEvent.VK_LEFT:
+                attackLeftPressed = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                attackDownPressed = true;
+                break;
+            case KeyEvent.VK_RIGHT:
+                attackRightPressed = true;
+                break;
+            case KeyEvent.VK_O:
+                isMenuBigSword = isMenuBigSword != true;
+                break;
             case KeyEvent.VK_P:
-                attackPressed = true;
+                weaponChoice = weaponChoice != true;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                pausePressed = pausePressed != true;
+                break;
+            case KeyEvent.VK_Y:
+                saveGameButton = saveGameButton != true;
+                break;
+            case KeyEvent.VK_4:
+                moneyCheat = true;
+                break;
+            case KeyEvent.VK_ENTER:
+                buyWeapon = true;
                 break;
         }
     }
@@ -47,8 +79,20 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D:
                 rightPressed = false;
                 break;
-            case KeyEvent.VK_P:
-                attackPressed = false;
+            case KeyEvent.VK_UP:
+                attackUpPressed = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                attackLeftPressed = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                attackDownPressed = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                attackRightPressed = false;
+                break;
+            case KeyEvent.VK_4:
+                moneyCheat = false;
                 break;
         }
     }
