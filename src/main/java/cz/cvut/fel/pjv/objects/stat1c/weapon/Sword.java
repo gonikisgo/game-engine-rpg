@@ -1,20 +1,24 @@
 package cz.cvut.fel.pjv.objects.stat1c.weapon;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 sword class
  */
 
 public class Sword extends BasicWeapon {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Sword(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        this.damage = 5;
+        this.damage = 7;
 
         solidAreaX = 0;
         solidAreaY = 9;
@@ -37,8 +41,9 @@ public class Sword extends BasicWeapon {
                     rightAttack = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/sword_right.png"));
                     break;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.INFO, "sword's images were loaded");
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "sword's images weren't loaded", ex);
         }
     }
 }

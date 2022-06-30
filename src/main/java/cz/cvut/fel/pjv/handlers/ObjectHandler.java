@@ -2,10 +2,14 @@ package cz.cvut.fel.pjv.handlers;
 
 import cz.cvut.fel.pjv.screen.GamePanel;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
 class controls interaction with objects
  */
 public class ObjectHandler {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     final static int maxPlayerSpeed = 10;
     GamePanel gamePanel;
 
@@ -43,6 +47,7 @@ public class ObjectHandler {
             gamePanel.allObjects.get(gamePanel.player.collisionIndex).health -= gamePanel.player.currentWeapon.damage;
             if (gamePanel.allObjects.get(gamePanel.player.collisionIndex).health <= 0) {
                 gamePanel.allObjects.remove(gamePanel.player.collisionIndex);
+                LOGGER.log(Level.INFO, "tree was destroyed");
             }
         }
     }
@@ -57,8 +62,8 @@ public class ObjectHandler {
                     gamePanel.player.health -= 20;
                     break;
                 case "Elf":
-                    if (gamePanel.allMobs.get(gamePanel.player.collisionIndex).canHeal = true) {
-                        gamePanel.player.health += 3;
+                    if (gamePanel.allMobs.get(gamePanel.player.collisionIndex).canHeal) {
+                        gamePanel.player.health += 5;
                     }
                     break;
             }
@@ -79,6 +84,7 @@ public class ObjectHandler {
                     gamePanel.totalDamageOnMonster += gamePanel.player.currentWeapon.damage;
                     if (gamePanel.allMobs.get(gamePanel.player.collisionIndex).health <= 0) {
                         gamePanel.allMobs.remove(gamePanel.player.collisionIndex);
+                        LOGGER.log(Level.INFO, "monster was killed");
                     }
                     break;
                 case "BossMonster":
@@ -88,6 +94,7 @@ public class ObjectHandler {
                     gamePanel.totalDamageOnMonster += gamePanel.player.currentWeapon.damage;
                     if (gamePanel.allMobs.get(gamePanel.player.collisionIndex).health <= 0) {
                         gamePanel.allMobs.remove(gamePanel.player.collisionIndex);
+                        LOGGER.log(Level.INFO, "boss monster was killed");
                     }
                     break;
             }

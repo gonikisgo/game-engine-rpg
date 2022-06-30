@@ -1,15 +1,19 @@
 package cz.cvut.fel.pjv.objects.stat1c.weapon;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 big sword class
  */
 public class BigSword extends BasicWeapon {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public BigSword(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -36,9 +40,9 @@ public class BigSword extends BasicWeapon {
                     rightAttack = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/big_sword_right.png"));
                     break;
             }
-
+            LOGGER.log(Level.INFO, "big sword's images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "big sword's images weren't loaded", ex);
         }
     }
 }

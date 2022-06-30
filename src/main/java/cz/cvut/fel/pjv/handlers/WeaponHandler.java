@@ -4,35 +4,48 @@ import cz.cvut.fel.pjv.objects.stat1c.weapon.BigSword;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.Sword;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
 class for choosing and buying weapon
  */
 
 public class WeaponHandler {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    Handler consoleHandler = new ConsoleHandler();
     GamePanel gamePanel;
 
     public WeaponHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        //LOGGER.addHandler(consoleHandler);
+        //consoleHandler.setLevel(Level.FINER);
+        //LOGGER.setLevel(Level.FINER);
     }
 
     public void weaponBuyCheck() {
+
         if (gamePanel.keyHandler.buyWeapon) {
+            gamePanel.keyHandler.buyWeapon = false;
             if (gamePanel.keyHandler.isMenuBigSword && gamePanel.player.weapon[1] == null) {
                 if (gamePanel.player.coins >= 25) {
                     gamePanel.player.coins -= 25;
                     gamePanel.player.weapon[1] = new BigSword(gamePanel);
+                    LOGGER.log(Level.INFO, "big sword is bought");
                 } else {
-                    // System.out.println("Not enough to 25 coins");
+                    LOGGER.log(Level.INFO, "attempt buying big sword, not enough coins");
                 }
             } else if (!gamePanel.keyHandler.isMenuBigSword && gamePanel.player.weapon[0] == null) {
                 if (gamePanel.player.coins >= 5) {
                     gamePanel.player.coins -= 5;
                     gamePanel.player.weapon[0] = new Sword(gamePanel);
+                    LOGGER.log(Level.INFO, "sword is bought");
                 } else {
-                    // System.out.println("Not enough to 5 coins");
+                    LOGGER.log(Level.INFO, "attempt buying sword, not enough coins");
                 }
             }
-            gamePanel.keyHandler.buyWeapon = false;
         }
     }
 

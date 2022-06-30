@@ -1,17 +1,21 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 tree class
  */
 
 public class Tree extends BasicObject {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Tree(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -35,8 +39,9 @@ public class Tree extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/tree.png"));
                     break;
             }
+            LOGGER.log(Level.INFO, "tree image was loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "tree image wasn't loaded", ex);
         }
     }
 }

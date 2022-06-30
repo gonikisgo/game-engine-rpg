@@ -1,15 +1,20 @@
 package cz.cvut.fel.pjv.screen;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 UI panel for showing player's health and speed
  */
 public class PanelHealth extends JPanel {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     final static int imageSize = 24;
     BufferedImage imageHeart1, imageHeart2, imageHeart3, imageSpeed;
     GamePanel gamePanel;
@@ -31,8 +36,9 @@ public class PanelHealth extends JPanel {
             imageHeart2 = ImageIO.read(getClass().getResourceAsStream("/objects/heart2.png"));
             imageHeart3 = ImageIO.read(getClass().getResourceAsStream("/objects/heart3.png"));
             imageSpeed = ImageIO.read(getClass().getResourceAsStream("/objects/speed.png"));
+            LOGGER.log(Level.INFO, "health and speed bar images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "health and speed bar images weren't loaded", ex);
         }
     }
 

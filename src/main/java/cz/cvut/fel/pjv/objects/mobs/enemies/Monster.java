@@ -1,17 +1,21 @@
 package cz.cvut.fel.pjv.objects.mobs.enemies;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 monster class
  */
 
 public class Monster extends BasicMob {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Monster(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -52,8 +56,9 @@ public class Monster extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/right2.png"));
                     break;
             }
+            LOGGER.log(Level.INFO, "monster images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "monster images weren't loaded", ex);
         }
     }
 }

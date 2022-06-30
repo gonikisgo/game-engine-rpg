@@ -1,20 +1,24 @@
 package cz.cvut.fel.pjv.objects.mobs.enemies;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 boss monster class
  */
 public class BossMonster extends BasicMob {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public BossMonster(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        health = 150;
+        health = 170;
 
         name = "BossMonster";
         collision = true;
@@ -51,8 +55,9 @@ public class BossMonster extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/boss_monster/right2.png"));
                     break;
             }
+            LOGGER.log(Level.INFO, "boss monster images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "boss monster images weren't loaded", ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.levels;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,12 +11,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 class creates base map from .txt file
  */
 
 public class BasicLevel {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public BasicObject[][] tiles;
     public boolean isBossLevel;
     public String biom;
@@ -48,8 +52,9 @@ public class BasicLevel {
                     background[1] = ImageIO.read(getClass().getResourceAsStream("/tiles/ice.png"));
                     break;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.INFO, "tiles images were loaded");
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "tiles images weren't loaded", ex);
         }
     }
 
@@ -70,8 +75,9 @@ public class BasicLevel {
                 }
             }
             bufferedReader.close();
+            LOGGER.log(Level.INFO, "map was read from .txt file");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "map wasn't read from .txt file", ex);
         }
 
     }

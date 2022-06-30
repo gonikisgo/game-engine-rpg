@@ -9,11 +9,12 @@ class for checking collisions between objects
  */
 public class StateHandler {
     GamePanel gamePanel;
+
     public StateHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
-    public void worldCollisionCheck(BasicMob basicMob, int upBorder, int leftBorder, int downBorder, int rightBorder) {
+    public void checkWorldCollision(BasicMob basicMob, int upBorder, int leftBorder, int downBorder, int rightBorder) {
         switch (basicMob.moveDirection) {
             case "up":
                 if ((basicMob.objectWorldY - basicMob.speed + basicMob.solidArea.y) < GamePanel.tileSize * upBorder) {
@@ -38,7 +39,7 @@ public class StateHandler {
         }
     }
 
-    public int checkerObjects(BasicMob basicMob) {
+    public int checkCollWithObjects(BasicMob basicMob) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allObjects.size(); i++) {
             basicMob.solidArea.x = basicMob.objectWorldX + basicMob.solidArea.x;
@@ -56,15 +57,10 @@ public class StateHandler {
             gamePanel.allObjects.get(i).solidArea.x = gamePanel.allObjects.get(i).solidAreaX;
             gamePanel.allObjects.get(i).solidArea.y = gamePanel.allObjects.get(i).solidAreaY;
         }
-        if(collisionIndex == -2) {
-            System.out.println(gamePanel.allObjects.get(collisionIndex).name);
-            System.out.println(gamePanel.allObjects.get(collisionIndex).objectWorldX);
-            System.out.println(gamePanel.allObjects.get(collisionIndex).objectWorldY);
-        }
         return collisionIndex;
     }
 
-    public int checkerMobs(BasicMob basicMob, int index) {
+    public int checkCollWithMobs(BasicMob basicMob, int index) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allMobs.size(); i++) {
             if (i != index) {
@@ -89,8 +85,7 @@ public class StateHandler {
         return collisionIndex;
     }
 
-
-    public void checkerPlayer(BasicMob basicMob) {
+    public void checkCollWithPlayer(BasicMob basicMob) {
         basicMob.solidArea.x = basicMob.objectWorldX + basicMob.solidArea.x;
         basicMob.solidArea.y = basicMob.objectWorldY + basicMob.solidArea.y;
 
@@ -108,7 +103,7 @@ public class StateHandler {
         gamePanel.player.solidArea.y = gamePanel.player.solidAreaY;
     }
 
-    public int checkerWeaponObjects(BasicObject basicObject) {
+    public int checkWeapWithObjects(BasicObject basicObject) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allObjects.size(); i++) {
             basicObject.solidArea.x = basicObject.objectWorldX;
@@ -120,14 +115,13 @@ public class StateHandler {
             if (basicObject.solidArea.intersects(gamePanel.allObjects.get(i).solidArea)) {
                 collisionIndex = i;
             }
-
             gamePanel.allObjects.get(i).solidArea.x = gamePanel.allObjects.get(i).solidAreaX;
             gamePanel.allObjects.get(i).solidArea.y = gamePanel.allObjects.get(i).solidAreaY;
         }
         return collisionIndex;
     }
 
-    public int checkerWeaponMobs(BasicObject basicObject) {
+    public int checkWeapWithMobs(BasicObject basicObject) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allMobs.size(); i++) {
             basicObject.solidArea.x = basicObject.objectWorldX;
@@ -139,17 +133,14 @@ public class StateHandler {
             if (basicObject.solidArea.intersects(gamePanel.allMobs.get(i).solidArea)) {
                 collisionIndex = i;
             }
-
             gamePanel.allMobs.get(i).solidArea.x = gamePanel.allMobs.get(i).solidAreaX;
             gamePanel.allMobs.get(i).solidArea.y = gamePanel.allMobs.get(i).solidAreaY;
         }
         return collisionIndex;
     }
 
-
-    public boolean checkerMobsArea(int index) {
+    public boolean checkMobsActArea(int index) {
         boolean collisionIndex = false;
-
         gamePanel.allMobs.get(index).activeArea.x = gamePanel.allMobs.get(index).objectWorldX - gamePanel.allMobs.get(index).activeAreaSize;
         gamePanel.allMobs.get(index).activeArea.y = gamePanel.allMobs.get(index).objectWorldY - gamePanel.allMobs.get(index).activeAreaSize;
 
@@ -159,7 +150,6 @@ public class StateHandler {
         if (gamePanel.player.solidArea.intersects(gamePanel.allMobs.get(index).activeArea)) {
             collisionIndex = true;
         }
-
         gamePanel.player.solidArea.x = gamePanel.player.solidAreaX;
         gamePanel.player.solidArea.y = gamePanel.player.solidAreaY;
 
@@ -185,7 +175,7 @@ public class StateHandler {
 
     private int checkIntersects(BasicObject basicObject, int i, int collisionIndex) {
         if (basicObject.solidArea.intersects(gamePanel.allObjects.get(i).solidArea)) {
-            if (gamePanel.allObjects.get(i).collision == true) {
+            if (gamePanel.allObjects.get(i).collision) {
                 basicObject.collision = true;
             }
             collisionIndex = i;

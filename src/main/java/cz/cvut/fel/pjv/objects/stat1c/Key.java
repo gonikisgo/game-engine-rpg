@@ -1,17 +1,21 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 key class
  */
 
 public class Key extends BasicObject {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Key(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -30,8 +34,9 @@ public class Key extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/key.png"));
                     break;
             }
+            LOGGER.log(Level.INFO, "key image was loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "key image wasn't loaded", ex);
         }
     }
 }

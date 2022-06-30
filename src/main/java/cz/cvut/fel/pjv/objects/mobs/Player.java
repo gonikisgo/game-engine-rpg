@@ -1,18 +1,22 @@
 package cz.cvut.fel.pjv.objects.mobs;
 
 import cz.cvut.fel.pjv.handlers.KeyHandler;
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.BasicWeapon;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 player class
  */
 
 public class Player extends BasicMob {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public int keys = 0;
     public int potionDrunk = 0;
     public int coins = 0;
@@ -75,8 +79,9 @@ public class Player extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/right2.png"));
                     break;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.INFO, "player images were loaded");
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "player images weren't loaded", ex);
         }
     }
 
@@ -116,24 +121,24 @@ public class Player extends BasicMob {
         collision = false;
         if (attacking && currentWeapon != null) {
             attackSet();
-            collisionIndex = gamePanel.stateHandler.checkerWeaponObjects(currentWeapon);
+            collisionIndex = gamePanel.stateHandler.checkWeapWithObjects(currentWeapon);
             if (collisionIndex != -1) {
                 gamePanel.objectHandler.weaponObjectInteraction();
             }
-            collisionIndex = gamePanel.stateHandler.checkerWeaponMobs(currentWeapon);
+            collisionIndex = gamePanel.stateHandler.checkWeapWithMobs(currentWeapon);
             if (collisionIndex != -1) {
                 gamePanel.objectHandler.weaponMobInteraction();
             }
         } else {
-            gamePanel.stateHandler.worldCollisionCheck(this, upBorder, leftBorder, downBorder, rightBorder);
+            gamePanel.stateHandler.checkWorldCollision(this, upBorder, leftBorder, downBorder, rightBorder);
             if (collision == false) {
-                collisionIndex = gamePanel.stateHandler.checkerObjects(this);
+                collisionIndex = gamePanel.stateHandler.checkCollWithObjects(this);
                 if (collisionIndex != -1) {
                     gamePanel.objectHandler.playerObjectInteraction();
                 }
             }
             if (collision == false) {
-                collisionIndex = gamePanel.stateHandler.checkerMobs(this, -1);
+                collisionIndex = gamePanel.stateHandler.checkCollWithMobs(this, -1);
                 if (collisionIndex != -1) {
                     gamePanel.objectHandler.playerMobInteraction();
                 }

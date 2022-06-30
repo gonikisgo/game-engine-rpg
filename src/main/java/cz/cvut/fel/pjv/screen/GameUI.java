@@ -1,15 +1,19 @@
 package cz.cvut.fel.pjv.screen;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.utils.StateConvert;
 import cz.cvut.fel.pjv.utils.WriteJson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 Game window, all game's panels with thread running on it created here
  */
 public class GameUI {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     final static int fps = 30;
     JFrame gameWindow = new JFrame();
     Thread gameThread;
@@ -53,6 +57,7 @@ public class GameUI {
         private void starUIThread() {
             gameThread = new Thread(this);
             gameThread.start();
+            LOGGER.log(Level.INFO, "game thread is started");
         }
 
         @Override
@@ -135,6 +140,7 @@ public class GameUI {
         }
 
         private void endgame() {
+            LOGGER.log(Level.WARNING, "game over");
             gameWindow.dispose();
             gameThread.stop();
         }

@@ -3,12 +3,15 @@ package cz.cvut.fel.pjv.handlers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 class for listening keyboard buttons during the game
  */
 
 public class KeyHandler implements KeyListener {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
 
     public boolean upPressed, leftPressed, rightPressed, downPressed, attackUpPressed, attackLeftPressed, attackDownPressed, attackRightPressed, pausePressed, isMenuBigSword, weaponChoice, buyWeapon, saveGameButton, moneyCheat;
 
@@ -51,6 +54,11 @@ public class KeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_ESCAPE:
                 pausePressed = pausePressed != true;
+                if (pausePressed) {
+                    LOGGER.log(Level.WARNING, "game paused");
+                } else {
+                    LOGGER.log(Level.WARNING, "game resumed");
+                }
                 break;
             case KeyEvent.VK_Y:
                 saveGameButton = saveGameButton != true;

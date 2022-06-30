@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.objects;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.enemies.BossMonster;
 import cz.cvut.fel.pjv.objects.mobs.enemies.Monster;
 import cz.cvut.fel.pjv.objects.mobs.friends.Elf;
@@ -8,11 +9,15 @@ import cz.cvut.fel.pjv.objects.stat1c.weapon.BigSword;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.Sword;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
 class for setting objects on the map and load inventory
  */
 
 public class ObjectSet {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     GamePanel gamePanel;
     // game map size is 60*45, constructor map is only 40*30
     public int tilesOffsetX = 10; // offset X to locate the tile from smaller map on big one
@@ -163,5 +168,7 @@ public class ObjectSet {
                 gamePanel.player.weapon[1] = new BigSword(gamePanel);
             }
         }
+        LOGGER.log(Level.INFO, "game objects were located on the map");
     }
+
 }

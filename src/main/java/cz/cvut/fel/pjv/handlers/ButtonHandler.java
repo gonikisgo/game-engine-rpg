@@ -7,12 +7,15 @@ import cz.cvut.fel.pjv.utils.WriteJson;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 class for listening buttons in level constructor
  */
 
 public class ButtonHandler implements ActionListener {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     LevelConstructor levelConstructor;
 
     public ButtonHandler(LevelConstructor levelConstructor) {
@@ -70,6 +73,7 @@ public class ButtonHandler implements ActionListener {
                     new WriteJson(levelConstructor.objectsDict);
                     levelConstructor.constructorWindow.dispose();
                     levelConstructor.menu.gameUI.loadGame();
+                    LOGGER.log(Level.INFO, "configuration saved, game is loading");
                 }
             }
 

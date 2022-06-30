@@ -30,7 +30,7 @@ public class BasicMob extends BasicObject {
     public boolean canMove;
     public BufferedImage standing, up1, up2, left1, left2, down1, down2, right1, right2;
     String[] move = new String[]{"standing", "up", "left", "down", "right"};
-    int frequency = 10; // to avoid unstoppable healing or damaging
+    int frequency = 8; // to avoid frequent update
     int moveUpdateDefaultRate = 100;
     int moveUpdateRate = moveUpdateDefaultRate;
 
@@ -55,16 +55,16 @@ public class BasicMob extends BasicObject {
 
     public void update(int index) {
         if (underAttack) {
-            moveUpdateDefaultRate *= 0.7;
+            moveUpdateDefaultRate = 70;
             chooseMove(index);
-        } else if (gamePanel.stateHandler.checkerMobsArea(index)) {
+        } else if (gamePanel.stateHandler.checkMobsActArea(index)) {
             moveDirection = move[0];
 
-            if (frequency == 10) {
+            if (frequency == 8) {
                 switch (this.name) {
                     case "Elf":
                         if (canHeal) {
-                            gamePanel.player.health += 3; // elf heals +3 xp each time
+                            gamePanel.player.health += 5; // elf heals +3 xp each time
                         }
                         break;
                     case "Monster":
@@ -111,10 +111,10 @@ public class BasicMob extends BasicObject {
     }
 
     private void checkCollision(int index) {
-        gamePanel.stateHandler.worldCollisionCheck(this, upBorder, leftBorder, downBorder, rightBorder);
-        gamePanel.stateHandler.checkerObjects(this);
-        gamePanel.stateHandler.checkerMobs(this, index);
-        gamePanel.stateHandler.checkerPlayer(this);
+        gamePanel.stateHandler.checkWorldCollision(this, upBorder, leftBorder, downBorder, rightBorder);
+        gamePanel.stateHandler.checkCollWithObjects(this);
+        gamePanel.stateHandler.checkCollWithMobs(this, index);
+        gamePanel.stateHandler.checkCollWithPlayer(this);
     }
 
     public void speedChange(BasicMob basicMob) {

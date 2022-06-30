@@ -1,13 +1,17 @@
 package cz.cvut.fel.pjv.utils;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.screen.GamePanel;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 class to convert game objects' info and prepare for writing to .json file
  */
 public class StateConvert {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public final static String[] names = new String[]{"Tree", "Water", "Key", "Potion", "Door", "Coin", "Player", "Monster", "Elf", "Biom", "LevelType", "PlayerSpeed", "PlayerKey", "PlayerPotion", "PlayerCoin", "PlayerWeapon", "Progress"};
     public Hashtable<String, ArrayList<ObjectInfo>> outputDict = new Hashtable<>();
     GamePanel gamePanel;
@@ -57,6 +61,7 @@ public class StateConvert {
         outputDict.get("LevelType").add(new ObjectInfo(levelType));
 
         outputDict.get("Progress").add(new ObjectInfo(gamePanel.totalDamageOnMonster, gamePanel.levelHealth));
+        LOGGER.log(Level.INFO, "state of game objects has been converted");
     }
 
     private void convertObjectCoordinates(String name, int index) {

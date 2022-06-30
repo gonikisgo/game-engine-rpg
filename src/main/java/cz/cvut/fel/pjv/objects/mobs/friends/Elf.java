@@ -1,16 +1,20 @@
 package cz.cvut.fel.pjv.objects.mobs.friends;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 elf class
  */
 public class Elf extends BasicMob {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Elf(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -24,7 +28,7 @@ public class Elf extends BasicMob {
         solidAreaHeightY = 24;
         solidArea = new Rectangle(solidAreaX, solidAreaY, solidAreaWidthX, solidAreaHeightY);
 
-        canHeal = gamePanel.rand.nextInt(3) == 0;
+        canHeal = gamePanel.rand.nextInt(2) == 0;
         try {
             switch (gamePanel.basicLevel.biom) {
                 case "Forest":
@@ -51,8 +55,9 @@ public class Elf extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/elf/right2.png"));
                     break;
             }
+            LOGGER.log(Level.INFO, "elf images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "elf images weren't loaded", ex);
         }
     }
 }

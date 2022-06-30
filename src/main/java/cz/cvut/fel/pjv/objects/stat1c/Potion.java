@@ -1,16 +1,20 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 potion class
  */
 public class Potion extends BasicObject {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Potion(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -45,8 +49,9 @@ public class Potion extends BasicObject {
                     }
                     break;
             }
+            LOGGER.log(Level.INFO, "potion images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "potion images images weren't loaded", ex);
         }
     }
 }

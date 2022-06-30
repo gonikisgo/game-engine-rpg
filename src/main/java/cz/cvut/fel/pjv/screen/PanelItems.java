@@ -1,16 +1,21 @@
 package cz.cvut.fel.pjv.screen;
 
+import cz.cvut.fel.pjv.handlers.WeaponHandler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 UI panel for showing player's objects and state
  */
 
 public class PanelItems extends JPanel {
+    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     private final Color customPurple = new Color(137, 160, 211);
     BufferedImage imageKey, imageCoin, imagePotion, sword, bigSword, inventory1, inventory2, inventory3, inventory4;
     GamePanel gamePanel;
@@ -37,8 +42,9 @@ public class PanelItems extends JPanel {
             inventory2 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory2.png"));
             inventory3 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory3.png"));
             inventory4 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory4.png"));
+            LOGGER.log(Level.INFO, "inventory images were loaded");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, "inventory images weren't loaded", ex);
         }
     }
 
