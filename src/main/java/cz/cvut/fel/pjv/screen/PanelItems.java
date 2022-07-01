@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.screen;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +8,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-UI panel for showing player's objects and state
+/**
+ * UI panel for showing player's objects and state
+ * @author kiselnik
  */
 
+
 public class PanelItems extends JPanel {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(PanelItems.class.getName());
     private final Color customPurple = new Color(137, 160, 211);
     BufferedImage imageKey, imageCoin, imagePotion, sword, bigSword, inventory1, inventory2, inventory3, inventory4;
     GamePanel gamePanel;
@@ -51,14 +51,14 @@ public class PanelItems extends JPanel {
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(defaultX, 0, 160, 528);
 
-        if (gamePanel.keyHandler.weaponChoice) {
-            if (gamePanel.keyHandler.isMenuBigSword) {
+        if (gamePanel.keyHandler.isBigSwordChoice) {
+            if (gamePanel.keyHandler.isMenuBuyBigSword) {
                 graphics2D.drawImage(inventory4, defaultX, defaultY, null);
             } else {
                 graphics2D.drawImage(inventory2, defaultX, defaultY, null);
             }
         } else {
-            if (gamePanel.keyHandler.isMenuBigSword) {
+            if (gamePanel.keyHandler.isMenuBuyBigSword) {
                 graphics2D.drawImage(inventory3, defaultX, defaultY, null);
             } else {
                 graphics2D.drawImage(inventory1, defaultX, defaultY, null);

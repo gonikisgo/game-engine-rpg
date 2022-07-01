@@ -5,12 +5,13 @@ import cz.cvut.fel.pjv.screen.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/*
-base entity for all objects in the game
+/**
+ * base entity for all objects in the game
+ * @author kiselnik
  */
 
 public class BasicObject {
-    private final static int lowHealth = 15;
+    private final static int lowHealth = 10;
     public GamePanel gamePanel;
     public boolean canBeDestroyed = false;
     public boolean underAttack = false;

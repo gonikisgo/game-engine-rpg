@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.screen;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +8,19 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-UI panel for showing player's health and speed
+/**
+ * UI panel for showing player's health and speed
+ * @author kiselnik
  */
+
 public class PanelHealth extends JPanel {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
-    final static int imageSize = 24;
+    private final static Logger LOGGER = Logger.getLogger(PanelHealth.class.getName());
+    final static int imageSize = 24; // standard heart image size
     BufferedImage imageHeart1, imageHeart2, imageHeart3, imageSpeed;
     GamePanel gamePanel;
-    int defaultX = 6;
-    int defaultY = 6;
+    int defaultX = 6; // standard x offset for labels and images
+    int defaultY = 6; // standard y offset for labels and images
+
     Font customFont = new Font(null, Font.PLAIN, 32);
 
     public PanelHealth(GamePanel gamePanel) {

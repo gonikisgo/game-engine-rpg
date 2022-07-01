@@ -16,15 +16,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-/*
-game is running on this panel
+/**
+ * game is running on this panel
+ * @author kiselnik
  */
+
 
 public class GamePanel extends JPanel {
     public final static int tileSize = 32; // every tile is 32*32 pixels
-    // the tiles' layout is 20*15
-    public final static int tilesWidth = 20;
-    public final static int tilesHeight = 15;
+    public final static int tilesWidth = 20; // game panel tiles width
+    public final static int tilesHeight = 15; // game panel tiles height
     private final static int healthBarOffset = 6;
     private final static int healthBarHeight = 4;
     private final Color customDarkGreen = new Color(3, 75, 3);
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel {
         player = new Player(this, keyHandler);
         objectSet = new ObjectSet(this);
 
-        this.setPreferredSize(new Dimension(640, 480));
+        this.setPreferredSize(new Dimension(tileSize * tilesWidth, tileSize * tilesHeight)); // game panel is 640*480
         this.setBackground(Color.white);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
@@ -70,7 +71,7 @@ public class GamePanel extends JPanel {
         graphics2D.fillRect(screenX, screenY, tileSize, healthBarHeight);
 
         graphics2D.setColor(customLightGreen);
-        graphics2D.fillRect(screenX, screenY, basicObject.health * tileSize / 60, healthBarHeight);
+        graphics2D.fillRect(screenX, screenY, basicObject.health * tileSize / 60, healthBarHeight); // full tree health is 60
     }
 
     public void drawMobHealth(Graphics2D graphics2D, BasicMob basicMob) {
@@ -83,10 +84,10 @@ public class GamePanel extends JPanel {
         graphics2D.setColor(Color.RED);
         switch (basicMob.name) {
             case "Monster":
-                graphics2D.fillRect(screenX, screenY, basicMob.health * tileSize / 100, healthBarHeight);
+                graphics2D.fillRect(screenX, screenY, basicMob.health * tileSize / 100, healthBarHeight); // full monster health is 100
                 break;
             case "BossMonster":
-                graphics2D.fillRect(screenX, screenY, basicMob.health * tileSize / 150, healthBarHeight);
+                graphics2D.fillRect(screenX, screenY, basicMob.health * tileSize / 150, healthBarHeight); // full boss monster health is 150
                 break;
         }
     }

@@ -4,13 +4,12 @@ import cz.cvut.fel.pjv.objects.stat1c.weapon.BigSword;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.Sword;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class for choosing and buying weapon
+/**
+ * class for choosing and buying weapon
+ * @author kiselnik
  */
 
 public class WeaponHandler {
@@ -22,10 +21,12 @@ public class WeaponHandler {
     }
 
     public void weaponBuyCheck() {
-
+        // checking if player want to buy weapon
         if (gamePanel.keyHandler.buyWeapon) {
             gamePanel.keyHandler.buyWeapon = false;
-            if (gamePanel.keyHandler.isMenuBigSword && gamePanel.player.weapon[1] == null) {
+            // checking which weapon is wanted
+            if (gamePanel.keyHandler.isMenuBuyBigSword && gamePanel.player.weapon[1] == null) {
+                // if player has enough coins for it
                 if (gamePanel.player.coins >= 25) {
                     gamePanel.player.coins -= 25;
                     gamePanel.player.weapon[1] = new BigSword(gamePanel);
@@ -33,7 +34,8 @@ public class WeaponHandler {
                 } else {
                     LOGGER.log(Level.INFO, "attempt buying big sword, not enough coins");
                 }
-            } else if (!gamePanel.keyHandler.isMenuBigSword && gamePanel.player.weapon[0] == null) {
+            } else if (!gamePanel.keyHandler.isMenuBuyBigSword && gamePanel.player.weapon[0] == null) {
+                // if player has enough coins for it
                 if (gamePanel.player.coins >= 5) {
                     gamePanel.player.coins -= 5;
                     gamePanel.player.weapon[0] = new Sword(gamePanel);
@@ -46,7 +48,7 @@ public class WeaponHandler {
     }
 
     public void weaponChoice() {
-        if (gamePanel.keyHandler.weaponChoice) {
+        if (gamePanel.keyHandler.isBigSwordChoice) {
             if (gamePanel.player.weapon[1] != null) {
                 gamePanel.player.currentWeapon = gamePanel.player.weapon[1];
             } else {

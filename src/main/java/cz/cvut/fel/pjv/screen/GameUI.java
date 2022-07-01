@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.screen;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.utils.StateConvert;
 import cz.cvut.fel.pjv.utils.WriteJson;
 
@@ -11,12 +10,14 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-Game window, all game's panels with thread running on it created here
+/**
+ * Game window, all game's panels with thread running on it created here
+ * @author kiselnik
  */
+
 public class GameUI {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
-    //Handler consoleHandler = new ConsoleHandler();
+    private final static Logger LOGGER = Logger.getLogger(GameUI.class.getName());
+    Handler consoleHandler = new ConsoleHandler();
     final static int fps = 30;
     JFrame gameWindow = new JFrame();
     Thread gameThread;
@@ -24,6 +25,12 @@ public class GameUI {
     StateConvert stateConvert;
     PanelHealth panelHealth;
     PanelItems panelItems;
+
+    public GameUI() {
+        LOGGER.addHandler(consoleHandler);
+        consoleHandler.setLevel(Level.CONFIG);
+        LOGGER.setLevel(Level.CONFIG);
+    }
 
     public void loadGame() {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,15 +43,11 @@ public class GameUI {
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
-
-        //LOGGER.addHandler(consoleHandler);
-        //consoleHandler.setLevel(Level.CONFIG);
-        //LOGGER.setLevel(Level.CONFIG);
     }
 
     public class PanelUI extends JPanel implements Runnable {
         public PanelUI() {
-            this.setPreferredSize(new Dimension(800, 528));
+            this.setPreferredSize(new Dimension(800, 528)); // game window size is 800*528
             this.setBackground(Color.white);
             this.setDoubleBuffered(true);
             this.setLayout(new BorderLayout());
@@ -62,9 +65,9 @@ public class GameUI {
         }
 
         private void starUIThread() {
+            LOGGER.log(Level.CONFIG, "game thread is started");
             gameThread = new Thread(this);
             gameThread.start();
-            LOGGER.log(Level.CONFIG, "game thread is started");
         }
 
         @Override
@@ -141,6 +144,7 @@ public class GameUI {
                 endgame();
             }
 
+            // cheat for game testing
             if (gamePanel.keyHandler.moneyCheat) {
                 gamePanel.player.coins += 10;
             }

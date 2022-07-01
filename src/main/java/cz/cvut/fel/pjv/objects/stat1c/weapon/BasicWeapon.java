@@ -4,8 +4,9 @@ import cz.cvut.fel.pjv.objects.BasicObject;
 
 import java.awt.image.BufferedImage;
 
-/*
-base class for all weapon
+/**
+ * base class for all weapon
+ * @author kiselnik
  */
 
 public class BasicWeapon extends BasicObject {

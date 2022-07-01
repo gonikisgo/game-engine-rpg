@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,12 +9,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-tree class
+/**
+ * tree class
+ * @author kiselnik
  */
 
 public class Tree extends BasicObject {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Tree.class.getName());
     public Tree(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 

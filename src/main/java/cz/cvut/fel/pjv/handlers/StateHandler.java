@@ -4,9 +4,11 @@ import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
-/*
-class for checking collisions between objects
+/**
+ * class for checking collisions between objects
+ * @author kiselnik
  */
+
 public class StateHandler {
     GamePanel gamePanel;
 
@@ -42,6 +44,7 @@ public class StateHandler {
     public int checkCollWithObjects(BasicMob basicMob) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allObjects.size(); i++) {
+            // moving solid area coordinates to check intersects
             basicMob.solidArea.x = basicMob.objectWorldX + basicMob.solidArea.x;
             basicMob.solidArea.y = basicMob.objectWorldY + basicMob.solidArea.y;
 
@@ -64,6 +67,7 @@ public class StateHandler {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allMobs.size(); i++) {
             if (i != index) {
+                // moving solid area coordinates to check intersects
                 basicMob.solidArea.x = basicMob.objectWorldX + basicMob.solidArea.x;
                 basicMob.solidArea.y = basicMob.objectWorldY + basicMob.solidArea.y;
 
@@ -86,6 +90,7 @@ public class StateHandler {
     }
 
     public void checkCollWithPlayer(BasicMob basicMob) {
+        // moving solid area coordinates to check intersects
         basicMob.solidArea.x = basicMob.objectWorldX + basicMob.solidArea.x;
         basicMob.solidArea.y = basicMob.objectWorldY + basicMob.solidArea.y;
 
@@ -106,6 +111,7 @@ public class StateHandler {
     public int checkWeapWithObjects(BasicObject basicObject) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allObjects.size(); i++) {
+            // moving solid area coordinates to check intersects
             basicObject.solidArea.x = basicObject.objectWorldX;
             basicObject.solidArea.y = basicObject.objectWorldY;
 
@@ -124,6 +130,7 @@ public class StateHandler {
     public int checkWeapWithMobs(BasicObject basicObject) {
         int collisionIndex = -1;
         for (int i = 0; i < gamePanel.allMobs.size(); i++) {
+            // moving solid area coordinates to check intersects
             basicObject.solidArea.x = basicObject.objectWorldX;
             basicObject.solidArea.y = basicObject.objectWorldY;
 
@@ -141,6 +148,7 @@ public class StateHandler {
 
     public boolean checkMobsActArea(int index) {
         boolean collisionIndex = false;
+        // moving solid and active area coordinates to check intersects
         gamePanel.allMobs.get(index).activeArea.x = gamePanel.allMobs.get(index).objectWorldX - gamePanel.allMobs.get(index).activeAreaSize;
         gamePanel.allMobs.get(index).activeArea.y = gamePanel.allMobs.get(index).objectWorldY - gamePanel.allMobs.get(index).activeAreaSize;
 

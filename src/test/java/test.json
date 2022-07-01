@@ -1,15 +1,9 @@
 {
-  "Potion": [
-    {
-      "x": 3,
-      "y": 0,
-      "health": -1
-    }
-  ],
+  "Potion": [],
   "Player": [
     {
-      "x": 8,
-      "y": 0,
+      "x": 10,
+      "y": 10,
       "health": -1
     }
   ],
@@ -21,34 +15,10 @@
       "options": "Forest"
     }
   ],
-  "Water": [
-    {
-      "x": 1,
-      "y": 0,
-      "health": -1
-    }
-  ],
-  "Tree": [
-    {
-      "x": 0,
-      "y": 0,
-      "health": -1
-    }
-  ],
-  "Coin": [
-    {
-      "x": 5,
-      "y": 0,
-      "health": -1
-    }
-  ],
-  "Monster": [
-    {
-      "x": 6,
-      "y": 0,
-      "health": -1
-    }
-  ],
+  "Water": [],
+  "Tree": [],
+  "Coin": [],
+  "Monster": [],
   "LevelType": [
     {
       "x": -1,
@@ -57,25 +27,7 @@
       "options": "NoBoss"
     }
   ],
-  "Door": [
-    {
-      "x": 4,
-      "y": 0,
-      "health": -1
-    }
-  ],
-  "Key": [
-    {
-      "x": 2,
-      "y": 0,
-      "health": -1
-    }
-  ],
-  "Elf": [
-    {
-      "x": 7,
-      "y": 0,
-      "health": -1
-    }
-  ]
+  "Door": [],
+  "Key": [],
+  "Elf": []
 }

@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,13 +9,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-water class
+/**
+ * water class
+ * @author kiselnik
  */
 
 
 public class Water extends BasicObject {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Water.class.getName());
     public Water(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 

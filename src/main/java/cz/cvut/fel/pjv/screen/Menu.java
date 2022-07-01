@@ -5,9 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/*
-start menu is running on this panel
+/**
+ * start menu is running on this panel
+ * @author kiselnik
  */
+
 public class Menu implements ActionListener {
     private final Color customPurple = new Color(137, 160, 211);
     public GameUI gameUI = new GameUI();

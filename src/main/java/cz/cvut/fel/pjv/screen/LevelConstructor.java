@@ -11,15 +11,16 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-/*
-level's constructor UI Class
+/**
+ * level's constructor UI Class
+ * @author kiselnik
  */
 
 public class LevelConstructor extends JPanel {
     public final static String[] names = new String[]{"Tree", "Water", "Key", "Potion", "Door", "Coin", "Player", "Monster", "Elf", "Biom", "LevelType", "Apply"};
     private final Color customPurple = new Color(137, 160, 211);
-    public int gridWidth = 40;
-    public int gridHeight = 30;
+    public int gridWidth = 40; // tiles width for creating map
+    public int gridHeight = 30; // tiles height for creating map
     public boolean isBiom, isBoss;
     public Hashtable<String, ArrayList<ObjectInfo>> objectsDict;
     public String biomChoice, bossChoice;
@@ -33,23 +34,23 @@ public class LevelConstructor extends JPanel {
     ButtonHandler buttonHandler = new ButtonHandler(this);
     JPanel panelLeft, panelRight, panelUp;
     Grid panelDown;
-    int locateX = 20;
-    int locateY = 80;
+    int locateX = 20; // standard x offset for buttons and labels
+    int locateY = 80; // standard y offset for buttons and labels
     JLabel biomLabel, bossLabel, objectLabel;
 
     public LevelConstructor(JFrame constructorWindow, Menu menu) {
-
         this.constructorWindow = constructorWindow;
         this.menu = menu;
 
         pressedButtonNum = -1;
         objectsDict = new Hashtable<>();
 
-        this.setPreferredSize(new Dimension(800, 560));
+        this.setPreferredSize(new Dimension(800, 560)); // level constructor panel size is 800*560
         this.setDoubleBuffered(true);
         this.setFocusable(false);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
+        // dividing panel for smaller panels
         panelLeft = new JPanel();
         panelLeft.setPreferredSize(new Dimension(640, 560));
         panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.Y_AXIS));

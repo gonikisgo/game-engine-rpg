@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.stat1c.weapon;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -9,12 +8,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-sword class
+/**
+ * sword class
+ * @author kiselnik
  */
 
+
 public class Sword extends BasicWeapon {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Sword.class.getName());
     public Sword(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 

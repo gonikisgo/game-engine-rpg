@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.levels;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -14,12 +13,13 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class creates base map from .txt file
+/**
+ * class creates base map from .txt file
+ * @author kiselnik
  */
 
 public class BasicLevel {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(BasicLevel.class.getName());
     public BasicObject[][] tiles;
     public boolean isBossLevel;
     public String biom;
@@ -31,8 +31,8 @@ public class BasicLevel {
         this.gamePanel = gamePanel;
         isBossLevel = gamePanel.readJsonInfo.dictionary.get("LevelType").get(0).getOptions().equals("Boss");
         biom = gamePanel.readJsonInfo.dictionary.get("Biom").get(0).getOptions();
-        mapWidth = GamePanel.tilesWidth * 3;
-        mapHeight = GamePanel.tilesHeight * 3;
+        mapWidth = GamePanel.tilesWidth * 3; // the world width is 60 tiles
+        mapHeight = GamePanel.tilesHeight * 3; // the world height is 45 tiles
         tiles = new BasicObject[mapHeight][mapWidth];
         setBiomImages();
         loadTxtMap();

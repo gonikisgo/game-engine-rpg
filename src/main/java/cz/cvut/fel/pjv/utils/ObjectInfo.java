@@ -1,7 +1,8 @@
 package cz.cvut.fel.pjv.utils;
 
-/*
-class for storing game object's info in .json file
+/**
+ * class for storing game object's info in .json file
+ * @author kiselnik
  */
 
 public class ObjectInfo {

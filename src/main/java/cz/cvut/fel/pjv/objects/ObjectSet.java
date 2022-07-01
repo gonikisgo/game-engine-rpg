@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.enemies.BossMonster;
 import cz.cvut.fel.pjv.objects.mobs.enemies.Monster;
 import cz.cvut.fel.pjv.objects.mobs.friends.Elf;
@@ -14,12 +13,13 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class for setting objects on the map and load inventory
+/**
+ * class for setting objects on the map and load inventory from .json file
+ * @author kiselnik
  */
 
 public class ObjectSet {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(ObjectSet.class.getName());
     Handler consoleHandler = new ConsoleHandler();
     GamePanel gamePanel;
     // game map size is 60*45, constructor map is only 40*30

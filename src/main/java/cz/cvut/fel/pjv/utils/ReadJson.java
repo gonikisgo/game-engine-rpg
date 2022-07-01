@@ -2,7 +2,6 @@ package cz.cvut.fel.pjv.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 
 import javax.swing.*;
 import java.io.FileReader;
@@ -13,12 +12,13 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class for reading game objects' info from .json file
+/**
+ * class for reading game objects' info from .json file
+ * @author kiselnik
  */
 
 public class ReadJson {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(ReadJson.class.getName());
     public Hashtable<String, ArrayList<ObjectInfo>> dictionary;
 
     public ReadJson(String filePath) {

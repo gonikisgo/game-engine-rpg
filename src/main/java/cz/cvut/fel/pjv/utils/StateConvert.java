@@ -1,7 +1,7 @@
 package cz.cvut.fel.pjv.utils;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.screen.GamePanel;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.logging.ConsoleHandler;
@@ -9,14 +9,19 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class to convert game objects' info and prepare for writing to .json file
+/**
+ * class to convert game objects' info and prepare for writing to .json file
+ * @author kiselnik
  */
+
 public class StateConvert {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
-    Handler consoleHandler = new ConsoleHandler();
     public final static String[] names = new String[]{"Tree", "Water", "Key", "Potion", "Door", "Coin", "Player", "Monster", "Elf", "Biom", "LevelType", "PlayerSpeed", "PlayerKey", "PlayerPotion", "PlayerCoin", "PlayerWeapon", "Progress"};
+    // active map is smaller than the whole world map
+    private final static int offsetX = 10;  // offset for moving in x
+    private final static int offsetY = 8; // offset for moving in y
+    private final static Logger LOGGER = Logger.getLogger(StateConvert.class.getName());
     public Hashtable<String, ArrayList<ObjectInfo>> outputDict = new Hashtable<>();
+    Handler consoleHandler = new ConsoleHandler();
     GamePanel gamePanel;
 
     public StateConvert(GamePanel gamePanel) {
@@ -71,27 +76,27 @@ public class StateConvert {
     }
 
     private void convertObjectCoordinates(String name, int index) {
-        int x = (gamePanel.allObjects.get(index).getX() / GamePanel.tileSize) - 10;
-        int y = (gamePanel.allObjects.get(index).getY() / GamePanel.tileSize) - 8;
+        int x = (gamePanel.allObjects.get(index).getX() / GamePanel.tileSize) - offsetX;
+        int y = (gamePanel.allObjects.get(index).getY() / GamePanel.tileSize) - offsetY;
         outputDict.get(name).add(new ObjectInfo(x, y));
     }
 
     private void convertMobCoordinates(String name, int index) {
-        int x = gamePanel.allMobs.get(index).defaultWorldX - 10;
-        int y = gamePanel.allMobs.get(index).defaultWorldY - 8;
+        int x = gamePanel.allMobs.get(index).defaultWorldX - offsetX;
+        int y = gamePanel.allMobs.get(index).defaultWorldY - offsetY;
         outputDict.get(name).add(new ObjectInfo(x, y));
     }
 
     private void convertMobCoordinatesData(String name, String options, int index) {
-        int x = gamePanel.allMobs.get(index).defaultWorldX - 10;
-        int y = gamePanel.allMobs.get(index).defaultWorldY - 8;
+        int x = gamePanel.allMobs.get(index).defaultWorldX - offsetX;
+        int y = gamePanel.allMobs.get(index).defaultWorldY - offsetY;
         int health = gamePanel.allMobs.get(index).getHealth();
         outputDict.get(name).add(new ObjectInfo(x, y, health, options));
     }
 
     private void convertPlayer() {
-        int x = gamePanel.player.defaultWorldX - 10;
-        int y = gamePanel.player.defaultWorldY - 8;
+        int x = gamePanel.player.defaultWorldX - offsetX;
+        int y = gamePanel.player.defaultWorldY - offsetY;
         int health = gamePanel.player.health;
         outputDict.get("Player").add(new ObjectInfo(x, y, health));
         convertPlayerObjects();

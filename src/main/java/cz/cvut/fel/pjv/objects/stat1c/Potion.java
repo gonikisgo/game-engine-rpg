@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.stat1c;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.BasicObject;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,11 +9,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-potion class
+/**
+ * potion class
+ * @author kiselnik
  */
+
 public class Potion extends BasicObject {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Potion.class.getName());
     public Potion(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 

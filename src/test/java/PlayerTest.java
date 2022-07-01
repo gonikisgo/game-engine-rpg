@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ *
+ * @author kiselnik
+ */
+
 public class PlayerTest {
     GamePanel gamePanel = new GamePanel("src/test/java/test.json");
     KeyHandler keyHandler = new KeyHandler();
@@ -20,6 +25,7 @@ public class PlayerTest {
         mockPlayer.currentWeapon = new Sword(gamePanel);
     }
 
+    // checking player image updating for sword attacking case
     @Test
     public void testUpdatePlayerImage() {
         mockPlayer.updatePlayerImage();

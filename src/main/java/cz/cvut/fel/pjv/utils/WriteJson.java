@@ -2,7 +2,6 @@ package cz.cvut.fel.pjv.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 
 import java.io.FileWriter;
 import java.io.Writer;
@@ -11,12 +10,13 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class for writing game objects' info in .json file
+/**
+ * class for writing game objects' info in .json file
+ * @author kiselnik
  */
 
 public class WriteJson {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(WriteJson.class.getName());
     public WriteJson(Hashtable<String, ArrayList<ObjectInfo>> dictionary) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {

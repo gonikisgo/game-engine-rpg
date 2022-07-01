@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.objects.mobs;
 
 import cz.cvut.fel.pjv.handlers.KeyHandler;
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.BasicWeapon;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -11,12 +10,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-player class
+/**
+ * player class
+ * @author kiselnik
  */
 
+
 public class Player extends BasicMob {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Player.class.getName());
     public int keys = 0;
     public int potionDrunk = 0;
     public int coins = 0;
@@ -94,30 +95,10 @@ public class Player extends BasicMob {
         if (weapon[0] != null || weapon[1] != null) {
             gamePanel.weaponHandler.weaponChoice();
         }
-
-        if (keyHandler.upPressed) {
-            moveDirection = "up";
-        } else if (keyHandler.leftPressed) {
-            moveDirection = "left";
-        } else if (keyHandler.downPressed) {
-            moveDirection = "down";
-        } else if (keyHandler.rightPressed) {
-            moveDirection = "right";
-        } else if (keyHandler.attackUpPressed) {
-            moveDirection = "upAttack";
-            attacking = true;
-        } else if (keyHandler.attackLeftPressed) {
-            moveDirection = "leftAttack";
-            attacking = true;
-        } else if (keyHandler.attackDownPressed) {
-            moveDirection = "downAttack";
-            attacking = true;
-        } else if (keyHandler.attackRightPressed) {
-            moveDirection = "rightAttack";
-            attacking = true;
-        }
-
+        whichButtonPressed();
         collision = false;
+
+        // checking collisions according to the move
         if (attacking && currentWeapon != null) {
             attackSet();
             collisionIndex = gamePanel.stateHandler.checkWeapWithObjects(currentWeapon);
@@ -149,8 +130,32 @@ public class Player extends BasicMob {
         updatePlayerImage();
     }
 
+    private void whichButtonPressed() {
+        if (keyHandler.upPressed) {
+            moveDirection = "up";
+        } else if (keyHandler.leftPressed) {
+            moveDirection = "left";
+        } else if (keyHandler.downPressed) {
+            moveDirection = "down";
+        } else if (keyHandler.rightPressed) {
+            moveDirection = "right";
+        } else if (keyHandler.attackUpPressed) {
+            moveDirection = "upAttack";
+            attacking = true;
+        } else if (keyHandler.attackLeftPressed) {
+            moveDirection = "leftAttack";
+            attacking = true;
+        } else if (keyHandler.attackDownPressed) {
+            moveDirection = "downAttack";
+            attacking = true;
+        } else if (keyHandler.attackRightPressed) {
+            moveDirection = "rightAttack";
+            attacking = true;
+        }
+    }
+
+    // setting sword's actual solid area
     private void attackSet() {
-        // setting sword's actual solid area
         switch (moveDirection) {
             case "upAttack":
                 currentWeapon.objectWorldX = this.objectWorldX + currentWeapon.solidAreaY;

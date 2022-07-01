@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.mobs.enemies;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,12 +9,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-monster class
+/**
+ * monster class
+ * @author kiselnik
  */
 
 public class Monster extends BasicMob {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Monster.class.getName());
     public Monster(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 

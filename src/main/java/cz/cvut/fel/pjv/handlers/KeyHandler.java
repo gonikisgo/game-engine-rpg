@@ -1,19 +1,20 @@
 package cz.cvut.fel.pjv.handlers;
 
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class for listening keyboard buttons during the game
+
+/**
+ * class for listening keyboard buttons during the game
+ * @author kiselnik
  */
 
 public class KeyHandler implements KeyListener {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(KeyHandler.class.getName());
 
-    public boolean upPressed, leftPressed, rightPressed, downPressed, attackUpPressed, attackLeftPressed, attackDownPressed, attackRightPressed, pausePressed, isMenuBigSword, weaponChoice, buyWeapon, saveGameButton, moneyCheat;
+    public boolean upPressed, leftPressed, rightPressed, downPressed, attackUpPressed, attackLeftPressed, attackDownPressed, attackRightPressed, pausePressed, isMenuBuyBigSword, isBigSwordChoice, buyWeapon, saveGameButton, moneyCheat;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -47,10 +48,10 @@ public class KeyHandler implements KeyListener {
                 attackRightPressed = true;
                 break;
             case KeyEvent.VK_O:
-                isMenuBigSword = isMenuBigSword != true;
+                isMenuBuyBigSword = isMenuBuyBigSword != true;
                 break;
             case KeyEvent.VK_P:
-                weaponChoice = weaponChoice != true;
+                isBigSwordChoice = isBigSwordChoice != true;
                 break;
             case KeyEvent.VK_ESCAPE:
                 pausePressed = pausePressed != true;

@@ -1,6 +1,5 @@
 package cz.cvut.fel.pjv.objects.mobs.enemies;
 
-import cz.cvut.fel.pjv.handlers.WeaponHandler;
 import cz.cvut.fel.pjv.objects.mobs.BasicMob;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
@@ -10,15 +9,17 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-boss monster class
+/**
+ * boss monster class
+ * @author kiselnik
  */
+
 public class BossMonster extends BasicMob {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(BossMonster.class.getName());
     public BossMonster(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        health = 170;
+        health = 150;
 
         name = "BossMonster";
         collision = true;

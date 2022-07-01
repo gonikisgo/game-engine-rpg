@@ -6,9 +6,11 @@ import cz.cvut.fel.pjv.screen.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/*
-base class for all mobs
+/**
+ * base class for all mobs
+ * @author kiselnik
  */
+
 public class BasicMob extends BasicObject {
     final static int leftConstructorMapBorder = 10;
     final static int topConstructorMapBorder = 8;
@@ -19,7 +21,7 @@ public class BasicMob extends BasicObject {
     public boolean attacking = false;
     public int defaultWorldX, defaultWorldY;
     public int upBorder, leftBorder, downBorder, rightBorder;
-    public int delta;
+    public int delta; // for limiting walking area in each way
     public int activeAreaSize = GamePanel.tileSize / 2;
     // mob's active area is 16 pixels in every dimension
     public Rectangle activeArea = new Rectangle(0, 0, activeAreaSize * 2 + GamePanel.tileSize, activeAreaSize * 2 + GamePanel.tileSize);
@@ -83,6 +85,7 @@ public class BasicMob extends BasicObject {
         updateImage();
     }
 
+    // choosing random move for mob with all collision conditions check
     private void chooseMove(int index) {
         int tryNum = 0;
         checkCollision(index);

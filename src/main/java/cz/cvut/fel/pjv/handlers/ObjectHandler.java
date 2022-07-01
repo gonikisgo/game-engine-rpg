@@ -5,11 +5,13 @@ import cz.cvut.fel.pjv.screen.GamePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-class controls interaction with objects
+/**
+ * class controls interaction with objects
+ * @author kiselnik
  */
+
 public class ObjectHandler {
-    private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(ObjectHandler.class.getName());
     final static int maxPlayerSpeed = 10;
     GamePanel gamePanel;
 
@@ -17,6 +19,7 @@ public class ObjectHandler {
         this.gamePanel = gamePanel;
     }
 
+    // selecting action according to the game object for player
     public void playerObjectInteraction() {
         switch (gamePanel.allObjects.get(gamePanel.player.collisionIndex).name) {
             case "Coin":
@@ -41,7 +44,9 @@ public class ObjectHandler {
         }
     }
 
+    // selecting action according to the game object for player weapon
     public void weaponObjectInteraction() {
+        // checking if the object is tree and if the tree can be broken
         if (gamePanel.allObjects.get(gamePanel.player.collisionIndex).name.equals("Tree") && gamePanel.allObjects.get(gamePanel.player.collisionIndex).canBeDestroyed) {
             gamePanel.allObjects.get(gamePanel.player.collisionIndex).underAttack = true;
             gamePanel.allObjects.get(gamePanel.player.collisionIndex).health -= gamePanel.player.currentWeapon.damage;
@@ -52,6 +57,7 @@ public class ObjectHandler {
         }
     }
 
+    // selecting action according to the game mobs for player
     public void playerMobInteraction() {
         if (gamePanel.player.frequency == 4) {
             switch (gamePanel.allMobs.get(gamePanel.player.collisionIndex).name) {
@@ -73,6 +79,7 @@ public class ObjectHandler {
         }
     }
 
+    // selecting action according to the game mobs for player weapon
     public void weaponMobInteraction() {
         if (gamePanel.player.frequency == 4) {
             int speed = gamePanel.allMobs.get(gamePanel.player.collisionIndex).speed;
