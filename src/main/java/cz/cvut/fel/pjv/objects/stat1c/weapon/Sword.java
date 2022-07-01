@@ -41,7 +41,6 @@ public class Sword extends BasicWeapon {
                     rightAttack = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/sword_right.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "sword's images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "sword's images weren't loaded", ex);
         }

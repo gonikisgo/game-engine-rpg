@@ -56,7 +56,6 @@ public class Monster extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/monster/right2.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "monster images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "monster images weren't loaded", ex);
         }

@@ -49,7 +49,6 @@ public class Potion extends BasicObject {
                     }
                     break;
             }
-            LOGGER.log(Level.INFO, "potion images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "potion images images weren't loaded", ex);
         }

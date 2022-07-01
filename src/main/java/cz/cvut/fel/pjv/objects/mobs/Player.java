@@ -79,7 +79,6 @@ public class Player extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/player/right2.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "player images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "player images weren't loaded", ex);
         }
@@ -174,7 +173,7 @@ public class Player extends BasicMob {
         }
     }
 
-    private void updatePlayerImage() {
+    public void updatePlayerImage() {
         image = standing;
         if (!moveDirection.equals("standing")) {
             if (attacking && currentWeapon != null) {

@@ -34,7 +34,6 @@ public class Coin extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/coin.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "coin image was loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "coin image wasn't loaded", ex);
         }

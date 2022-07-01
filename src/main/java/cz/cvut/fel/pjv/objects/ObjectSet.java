@@ -9,6 +9,8 @@ import cz.cvut.fel.pjv.objects.stat1c.weapon.BigSword;
 import cz.cvut.fel.pjv.objects.stat1c.weapon.Sword;
 import cz.cvut.fel.pjv.screen.GamePanel;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +20,7 @@ class for setting objects on the map and load inventory
 
 public class ObjectSet {
     private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    Handler consoleHandler = new ConsoleHandler();
     GamePanel gamePanel;
     // game map size is 60*45, constructor map is only 40*30
     public int tilesOffsetX = 10; // offset X to locate the tile from smaller map on big one
@@ -26,6 +29,13 @@ public class ObjectSet {
 
     public ObjectSet(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        LOGGER.addHandler(consoleHandler);
+        consoleHandler.setLevel(Level.CONFIG);
+        LOGGER.setLevel(Level.CONFIG);
+        setSizes();
+    }
+
+    private void setSizes() {
         coinsCount = gamePanel.readJsonInfo.dictionary.get("Coin").size();
         doorsCount = gamePanel.readJsonInfo.dictionary.get("Door").size();
         keysCount = gamePanel.readJsonInfo.dictionary.get("Key").size();
@@ -131,6 +141,7 @@ public class ObjectSet {
             gamePanel.totalDamageOnMonster = gamePanel.readJsonInfo.dictionary.get("Progress").get(0).getX();
             gamePanel.levelHealth = gamePanel.readJsonInfo.dictionary.get("Progress").get(0).getY();
         }
+        LOGGER.log(Level.CONFIG, "game objects were located on the map");
     }
 
 
@@ -168,7 +179,6 @@ public class ObjectSet {
                 gamePanel.player.weapon[1] = new BigSword(gamePanel);
             }
         }
-        LOGGER.log(Level.INFO, "game objects were located on the map");
     }
 
 }

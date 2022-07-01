@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cz.cvut.fel.pjv.handlers.WeaponHandler;
 
+import javax.swing.*;
 import java.io.FileReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -20,14 +21,14 @@ public class ReadJson {
     private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
     public Hashtable<String, ArrayList<ObjectInfo>> dictionary;
 
-    public ReadJson() {
+    public ReadJson(String filePath) {
         try {
-            Reader reader = new FileReader("src/main/resources/game_info/saving.json");
+            Reader reader = new FileReader(filePath);
             Type typeOfHashDict = new TypeToken<Hashtable<String, ArrayList<ObjectInfo>>>() {
             }.getType();
             dictionary = new Gson().fromJson(reader, typeOfHashDict);
-            LOGGER.log(Level.INFO, ".json file has been read");
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Previous save is missing");
             LOGGER.log(Level.SEVERE, ".json file wasn't read", ex);
         }
     }

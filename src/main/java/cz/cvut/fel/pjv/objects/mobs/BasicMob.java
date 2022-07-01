@@ -27,7 +27,6 @@ public class BasicMob extends BasicObject {
     public int speed;
     public boolean spriteChange = false;
     public int spriteChangeRate = 0;
-    public boolean canMove;
     public BufferedImage standing, up1, up2, left1, left2, down1, down2, right1, right2;
     String[] move = new String[]{"standing", "up", "left", "down", "right"};
     int frequency = 8; // to avoid frequent update
@@ -151,10 +150,11 @@ public class BasicMob extends BasicObject {
                 break;
         }
 
-        spriteChangeRate++;
-        if (spriteChangeRate > 5) {
+        if (spriteChangeRate > 4) {
             spriteChange = spriteChange == false;
             spriteChangeRate = 0;
+        } else {
+            spriteChangeRate++;
         }
     }
 }

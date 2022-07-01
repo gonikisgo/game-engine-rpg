@@ -15,14 +15,10 @@ class for choosing and buying weapon
 
 public class WeaponHandler {
     private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
-    Handler consoleHandler = new ConsoleHandler();
     GamePanel gamePanel;
 
     public WeaponHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        //LOGGER.addHandler(consoleHandler);
-        //consoleHandler.setLevel(Level.FINER);
-        //LOGGER.setLevel(Level.FINER);
     }
 
     public void weaponBuyCheck() {

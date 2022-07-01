@@ -52,7 +52,6 @@ public class BasicLevel {
                     background[1] = ImageIO.read(getClass().getResourceAsStream("/tiles/ice.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "tiles images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "tiles images weren't loaded", ex);
         }
@@ -75,7 +74,6 @@ public class BasicLevel {
                 }
             }
             bufferedReader.close();
-            LOGGER.log(Level.INFO, "map was read from .txt file");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "map wasn't read from .txt file", ex);
         }

@@ -34,7 +34,6 @@ public class Key extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/key.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "key image was loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "key image wasn't loaded", ex);
         }

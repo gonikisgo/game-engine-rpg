@@ -42,7 +42,6 @@ public class PanelItems extends JPanel {
             inventory2 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory2.png"));
             inventory3 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory3.png"));
             inventory4 = ImageIO.read(getClass().getResourceAsStream("/objects/inventory4.png"));
-            LOGGER.log(Level.INFO, "inventory images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "inventory images weren't loaded", ex);
         }

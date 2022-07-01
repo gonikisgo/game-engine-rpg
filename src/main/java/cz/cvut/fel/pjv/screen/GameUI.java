@@ -6,6 +6,8 @@ import cz.cvut.fel.pjv.utils.WriteJson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +16,7 @@ Game window, all game's panels with thread running on it created here
  */
 public class GameUI {
     private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    //Handler consoleHandler = new ConsoleHandler();
     final static int fps = 30;
     JFrame gameWindow = new JFrame();
     Thread gameThread;
@@ -33,6 +36,10 @@ public class GameUI {
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
+
+        //LOGGER.addHandler(consoleHandler);
+        //consoleHandler.setLevel(Level.CONFIG);
+        //LOGGER.setLevel(Level.CONFIG);
     }
 
     public class PanelUI extends JPanel implements Runnable {
@@ -42,7 +49,7 @@ public class GameUI {
             this.setDoubleBuffered(true);
             this.setLayout(new BorderLayout());
 
-            gamePanel = new GamePanel();
+            gamePanel = new GamePanel("src/main/resources/game_info/saving.json");
             panelHealth = new PanelHealth(gamePanel);
             panelItems = new PanelItems(gamePanel);
 
@@ -57,7 +64,7 @@ public class GameUI {
         private void starUIThread() {
             gameThread = new Thread(this);
             gameThread.start();
-            LOGGER.log(Level.INFO, "game thread is started");
+            LOGGER.log(Level.CONFIG, "game thread is started");
         }
 
         @Override
@@ -140,9 +147,9 @@ public class GameUI {
         }
 
         private void endgame() {
-            LOGGER.log(Level.WARNING, "game over");
+            LOGGER.log(Level.INFO, "game over");
             gameWindow.dispose();
-            gameThread.stop();
+            System.exit(0);
         }
     }
 }

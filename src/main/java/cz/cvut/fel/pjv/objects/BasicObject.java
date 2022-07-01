@@ -10,6 +10,7 @@ base entity for all objects in the game
  */
 
 public class BasicObject {
+    private final static int lowHealth = 15;
     public GamePanel gamePanel;
     public boolean canBeDestroyed = false;
     public boolean underAttack = false;
@@ -38,7 +39,7 @@ public class BasicObject {
     }
 
     public void draw(Graphics2D graphics2D, GamePanel gamePanel) {
-        if (health < 15) {
+        if (health < lowHealth) {
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
         int screenX = objectWorldX - gamePanel.player.objectWorldX + gamePanel.player.screenX;

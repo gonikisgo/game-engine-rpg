@@ -7,7 +7,8 @@ main class
  */
 public class Game {
     public static void main(String[] args) {
-        new Menu().setMenu();
+        Menu menu = new Menu();
+        menu.setMenu();
     }
 }
 

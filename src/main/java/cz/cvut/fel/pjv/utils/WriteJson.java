@@ -23,7 +23,6 @@ public class WriteJson {
             Writer writer = new FileWriter("src/main/resources/game_info/saving.json");
             gson.toJson(dictionary, writer);
             writer.close();
-            LOGGER.log(Level.INFO, ".json file has been written");
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ".json file wasn't written", ex);
         }

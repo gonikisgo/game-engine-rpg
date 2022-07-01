@@ -55,7 +55,6 @@ public class Elf extends BasicMob {
                     right2 = ImageIO.read(getClass().getResourceAsStream("/mobs/snow/elf/right2.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "elf images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "elf images weren't loaded", ex);
         }

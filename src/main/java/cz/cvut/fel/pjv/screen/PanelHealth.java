@@ -36,7 +36,6 @@ public class PanelHealth extends JPanel {
             imageHeart2 = ImageIO.read(getClass().getResourceAsStream("/objects/heart2.png"));
             imageHeart3 = ImageIO.read(getClass().getResourceAsStream("/objects/heart3.png"));
             imageSpeed = ImageIO.read(getClass().getResourceAsStream("/objects/speed.png"));
-            LOGGER.log(Level.INFO, "health and speed bar images were loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "health and speed bar images weren't loaded", ex);
         }

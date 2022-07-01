@@ -55,9 +55,9 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_ESCAPE:
                 pausePressed = pausePressed != true;
                 if (pausePressed) {
-                    LOGGER.log(Level.WARNING, "game paused");
+                    LOGGER.log(Level.INFO, "game paused");
                 } else {
-                    LOGGER.log(Level.WARNING, "game resumed");
+                    LOGGER.log(Level.INFO, "game resumed");
                 }
                 break;
             case KeyEvent.VK_Y:

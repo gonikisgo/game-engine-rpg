@@ -37,15 +37,20 @@ public class GamePanel extends JPanel {
     public ObjectHandler objectHandler = new ObjectHandler(this);
     public StateHandler stateHandler = new StateHandler(this);
     public WeaponHandler weaponHandler = new WeaponHandler(this);
-    public ReadJson readJsonInfo = new ReadJson();
-    public BasicLevel basicLevel = new BasicLevel(this);
-    public Player player = new Player(this, keyHandler);
+    public ReadJson readJsonInfo;
+    public BasicLevel basicLevel;
+    public Player player;
     public ArrayList<BasicObject> allObjects = new ArrayList<BasicObject>();
     public ArrayList<BasicMob> allMobs = new ArrayList<BasicMob>();
-    public ObjectSet objectSet = new ObjectSet(this);
+    public ObjectSet objectSet;
 
 
-    public GamePanel() {
+    public GamePanel(String filePath) {
+        readJsonInfo = new ReadJson(filePath);
+        basicLevel = new BasicLevel(this);
+        player = new Player(this, keyHandler);
+        objectSet = new ObjectSet(this);
+
         this.setPreferredSize(new Dimension(640, 480));
         this.setBackground(Color.white);
         this.setDoubleBuffered(true);

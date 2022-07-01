@@ -39,7 +39,6 @@ public class Tree extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/tree.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "tree image was loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "tree image wasn't loaded", ex);
         }

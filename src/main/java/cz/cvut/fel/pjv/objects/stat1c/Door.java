@@ -35,7 +35,6 @@ public class Door extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/objects/snow/door.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "door image was loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "door image wasn't loaded", ex);
         }

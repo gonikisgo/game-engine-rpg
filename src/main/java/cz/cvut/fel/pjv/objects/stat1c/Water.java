@@ -36,7 +36,6 @@ public class Water extends BasicObject {
                     this.image = ImageIO.read(getClass().getResourceAsStream("/tiles/ice.png"));
                     break;
             }
-            LOGGER.log(Level.INFO, "water image was loaded");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "water image wasn't loaded", ex);
         }

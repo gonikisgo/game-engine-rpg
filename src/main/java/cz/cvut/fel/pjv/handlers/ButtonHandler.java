@@ -7,6 +7,8 @@ import cz.cvut.fel.pjv.utils.WriteJson;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,10 +18,14 @@ class for listening buttons in level constructor
 
 public class ButtonHandler implements ActionListener {
     private final static Logger LOGGER = Logger.getLogger(WeaponHandler.class.getName());
+    Handler consoleHandler = new ConsoleHandler();
     LevelConstructor levelConstructor;
 
     public ButtonHandler(LevelConstructor levelConstructor) {
         this.levelConstructor = levelConstructor;
+        LOGGER.addHandler(consoleHandler);
+        consoleHandler.setLevel(Level.CONFIG);
+        LOGGER.setLevel(Level.CONFIG);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class ButtonHandler implements ActionListener {
                     new WriteJson(levelConstructor.objectsDict);
                     levelConstructor.constructorWindow.dispose();
                     levelConstructor.menu.gameUI.loadGame();
-                    LOGGER.log(Level.INFO, "configuration saved, game is loading");
+                    LOGGER.log(Level.CONFIG, "configuration saved, game is loading");
                 }
             }
 
